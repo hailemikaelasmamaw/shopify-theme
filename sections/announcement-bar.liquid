@@ -4,7 +4,19 @@
 <section>
     <div class="announcement-bar">
         <div class="announcement-bar-left-section">
-            {% if section.settings %}
+            {% if section.settings.image != blank %}
+                <img 
+                    width="40"
+                    height="40"
+                    loading="lazy"
+                    src="{{ section.settings.image | image_url }}"/>
+                {% else %}
+                    <img 
+                        width="40"
+                        height="40"
+                        loading="lazy"
+                        src="{{ a.png | asset_url }}"> 
+            {% endif %}
         </div>
         <div class="announcement-bar-right-section">
 
@@ -21,6 +33,12 @@
                 "id": "show-announcement",
                 "label": "Show Announcement",
                 "default" : true
+            },
+            {
+                "type": "image_picker",
+                "id": "image",
+                "label": "pick image",
+                "info" : true
             }
         ],
         "presets" : []
