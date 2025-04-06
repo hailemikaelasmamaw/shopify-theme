@@ -1,5 +1,16 @@
 
-<section>announcement bar</section>
+{% if section.settings ['show-announcement']%}
+
+<section>
+    <div class="announcement-bar">
+        <div class="announcement-bar-left-section">
+            {% if section.settings %}
+        </div>
+        <div class="announcement-bar-right-section">
+
+        </div>
+    </div>
+</section>
 
 {% schema %}
     {
