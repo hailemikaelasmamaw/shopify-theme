@@ -1,11 +1,11 @@
-<section class="all-collections">
+<section class="all-products">
 
-    <h1>Featured collections</h1>
-    <div class="collection-container">
-        <div class="collection-wrapper"> 
-            {%for collection in collection %}
+    <h1>Featured products</h1>
+    <div class="products-container">
+        <div class="products-wrapper"> 
+            {%for products in product %}
 
-                <h3> {{ collection.title | link_to: collection.url }}</h3>
+                <h3> {{ product.title | link_to: product.url }}</h3>
             {% endfor %}
 
         </div>
