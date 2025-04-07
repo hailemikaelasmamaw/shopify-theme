@@ -39,7 +39,48 @@
         display: flex; 
     }
 
-    .one 
+    .one {
+        background-image : url("{{ 'one.png' | asset_url }}");
+        width: 33.3333%;
+        height: 500px;
+        background-size: cover;
+        background-position: center;
+    }
+    .one-user {
+        background-image : url("{{ section.settings.image | image_url }}");
+        width: 33.3333%;
+        height: 500px;
+        background-size: cover;
+        background-position: center;
+    }
+    .two {
+        background-image : url("{{ 'two.png' | asset_url }}");
+        width: 33.3333%;
+        height: 500px;
+        background-size: cover;
+        background-position: center;
+    }
+    .two-user {
+        background-image : url("{{ section.settings.image2 | image_url }}");
+        width: 33.3333%;
+        height: 500px;
+        background-size: cover;
+        background-position: center;
+    }
+    .three {
+        background-image : url("{{ 'three.png' | asset_url }}");
+        width: 33.3333%;
+        height: 500px;
+        background-size: cover;
+        background-position: center;
+    }
+    .three-user {
+        background-image : url("{{ section.settings.image3 | image_url }}");
+        width: 33.3333%;
+        height: 500px;
+        background-size: cover;
+        background-position: center;
+    }
 </style>
 
 
