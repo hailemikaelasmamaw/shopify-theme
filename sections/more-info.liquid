@@ -1,7 +1,7 @@
 <section class="more-info">
 
     <div class="more-info-wrapper">
-        {% if section.setting.text != blank %}
+        {% if section.settings.text != blank %}
 
             <h1> THE RESOLUTION STARTER PACK </h1>
 
@@ -9,7 +9,17 @@
             <h1>{{ section.settings.text }}</h1>
             
         {% endif %}
-            <button>Shope</button>
+
+        {% if section.settings.text2 != blank %}
+
+            <p> Go for all your fitness goals with curated collection of new kicks breathable apparel, <br>and more supportive style </p>
+
+        {% else %}
+            <p>{{ section.settings.text2 }}</p>
+            
+        {% endif %}
+
+        <button>Shope</button>
     </div>
 
 </section>
