@@ -50,8 +50,16 @@
         </div>
         </div>
     </section>
-{% endif %}
-
+{%- endif -%}
+<style>
+    .announcement-bar{
+        background: {{ section.settings.background }};
+        color: {{ section.settings.text_color }};
+        display: flex;
+        justify-content: space-between;
+        padding: 0, 30px, 50px
+    }
+</style>
 {% schema %}
 {
     "name": "Announcement Bar",
