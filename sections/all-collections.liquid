@@ -1,6 +1,23 @@
+<section class="all-collections">
+
+    <h1>Featured collections</h1>
+    <div class="collection-container">
+        <div class="collection-wrapper"> 
+                {%for collection in collection %}
+
+                    <h3> {{ collection.title 
+                         }}</h3>
+                {% endfor %}
+
+        </div>
+    </div>
+
+</section>
+
+
 {% schema %}
 {
-    "name" : "more-info",
+    "name" : "all-collections",
     "settings" : [
         {
             "type": "color",
@@ -17,7 +34,7 @@
     ],
     "presets" : [
         {
-            "name" : "more-info"
+            "name" : "all-collections"
         }
     ]
 }
