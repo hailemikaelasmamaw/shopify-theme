@@ -3,18 +3,58 @@
     <h1>Featured collections</h1>
     <div class="collection-container">
         <div class="collection-wrapper"> 
-                {%for collection in collection %}
+            {%for collection in collection %}
 
-                    <h3> {{ collection.title 
-                         }}</h3>
-                {% endfor %}
+            <div class="collection-card">
+                <img
+                    width="300"
+                    height="300"
+                    loading="lazy"
+                    src="{{ collection.featured_image | image_url}}">
+
+                <h3> {{ collection.title | link_to: collection.url }}</h3>
+
+            </div>
+    
+            {% endfor %}
 
         </div>
     </div>
 
 </section>
 
-
+<style>
+    .all-collections {
+    
+        background : {{ section.settingd.background }};
+        color : {{ section.settings.text_color }};
+        padding : 10px;
+    }
+    .collection-container {
+        position: relative;
+        overflow-x : scroll;
+    }
+    .all-collections-wrapper {
+        display: flex;
+        transition: transform 0.3s ease;
+    }
+    .collection-card {
+        padding : 5px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .collection-card h3 a {
+        color: black;
+        text-decoration: none;
+    }
+    .collection-card a:hover {
+        text-decoration: underline;
+    
+    }
+</style>
 {% schema %}
 {
     "name" : "all-collections",
