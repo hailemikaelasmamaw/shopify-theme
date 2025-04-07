@@ -1,5 +1,9 @@
 <section>
-    <div class="banner-wrapper"> Hello world</div>
+    <div class="banner-wrapper">
+        <div class="slide-text" id="text1">Members: Free Shipping</div>
+        <div class="slide-text" id="text2">Save Up to 40%</div>
+        <div class="slide-text" id="text3"> Get Your Gear Faster</div>
+    </div>
 </section>
 
 <style>
@@ -7,7 +11,32 @@
         background: {{ section.settings.background }};
         color: {{ section.settings.text_color }};
     }
+    .slide-text {
+        position: absolute;
+        top: 155px;
+        left: -150%;
+        transform: translate(0, -50%);
+        color: black;
+        padding: 20px;
+        font-size: 20px;
+        transition : left 0.5s ease-in-out;
+    }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        const text1 = document.getElementByID('text1');
+        const text2 = document.getElementByID('text2');
+        const text3 = document.getElementByID('text3');
+
+        const texts = [text1, text2, text3]
+        let currentIndex = 0;
+
+        function slideToMiddle (element) {
+        element.style.left = "40%"
+    }
+    })
+</script>
 
 {% schema %}
 {
