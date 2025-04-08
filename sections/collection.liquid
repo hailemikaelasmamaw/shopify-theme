@@ -1,6 +1,6 @@
 {% paginate collection.products by 4 %}
     <section class="collection-sec">
-      <div>
+        <div>
         <select id="sort-by">
             {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
 
