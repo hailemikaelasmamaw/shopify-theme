@@ -1,13 +1,14 @@
 {
-    "section" : {
-        "main": {
-            "type" : "main-404",
-            "settings" : {
-
-            }
+    "sections": {
+        "main-product": {
+            "type": "main-product",
+            "settings": {}
         }
+
     },
     "order": [
-        "main"
+        "main-product"
+    
     ]
+
 }
