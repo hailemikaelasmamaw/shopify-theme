@@ -20,9 +20,9 @@
               </option>
             {% endfor %}
             <h3>Select Size</h3>
-            {% for size in product.options_with_values %}
-              <option value="{{size.id }}">
-                {{ size.name }}
+            {% for carat in product.options_with_values %}
+              <option value="{{carat.id }}">
+                {{ carat.name }}
               </option>
             {% endfor %}
           </select>
