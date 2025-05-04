@@ -5,6 +5,7 @@
             {% for product in collections['best-selling'].products %}
                 <div class="product-card">
                 <img
+                class="product-image"
                 width="300"
                 height="300"
                 loading="lazy"
@@ -19,39 +20,112 @@
 
 <style>
     .all-products {
-    background: {{ section.settings.background }};
-    color: {{ section.settings.text_color }};
-    padding: 10px;
+        background: {{ section.settings.background }};
+        color: {{ section.settings.text_color }};
+        padding: 20px;
+        width: 100%;
+        max-width: 100%;
+    }
 
+    .all-products h1 {
+        text-align: center;
+        margin-bottom: 20px;
     }
 
     .all-products-wrapper {
         display: flex;
-        transition: transform 0.3s ease; /* Add smooth transition effect */
-
+        transition: transform 0.3s ease;
+        gap: 20px;
     }
+
     .product-container {
-    position: relative;
-    overflow-x: scroll;
+        position: relative;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* Firefox */
+    }
+
+    .product-container::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Edge */
     }
 
     .product-card {
-        padding: 10px;
+        padding: 15px;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        flex: 0 0 auto;
+        width: 300px;
+        transition: transform 0.2s ease;
+    }
 
+    .product-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .product-image {
+        width: 100%;
+        height: auto;
+        max-width: 300px;
+        max-height: 300px;
+        object-fit: cover;
+    }
+
+    .product-card h3 {
+        margin-top: 10px;
+        text-align: center;
     }
 
     .product-card h3 a {
         color: black;
-        text-decoration: none
+        text-decoration: none;
     }
 
     .product-card a:hover {
         text-decoration: underline;
+    }
+
+    /* Mobile styles */
+    @media screen and (max-width: 768px) {
+        .all-products {
+            padding: 10px;
+        }
+
+        .all-products-wrapper {
+            gap: 10px;
+        }
+
+        .product-card {
+            width: 180px;
+            padding: 10px;
+        }
+
+        .product-image {
+            max-width: 160px;
+            max-height: 160px;
+        }
+
+        .product-card h3 {
+            font-size: 0.9em;
+        }
+    }
+
+    /* Small mobile styles */
+    @media screen and (max-width: 480px) {
+        .product-card {
+            width: 150px;
+        }
+
+        .product-image {
+            max-width: 130px;
+            max-height: 130px;
+        }
+
+        .product-card h3 {
+            font-size: 0.8em;
+        }
     }
 </style>
 

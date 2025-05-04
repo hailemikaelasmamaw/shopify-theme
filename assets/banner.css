@@ -1,0 +1,77 @@
+/**
+* --------------------------------------------------------------------
+* BANNER STYLES
+* --------------------------------------------------------------------
+*/
+
+.banner-wrapper {
+  position: relative;
+  padding: 30px;
+  min-height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.slide-text {
+  position: absolute;
+  top: 50%;
+  left: -150%; /* Initially position the divs outside the left edge of the screen */
+  transform: translate(0, -50%);
+  padding: 20px;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  transition: left 0.5s ease-in-out; /* Add a smooth transition effect */
+  width: auto;
+  white-space: nowrap;
+}
+
+/**
+* --------------------------------------------------------------------
+* RESPONSIVE MEDIA QUERIES FOR BANNER
+* --------------------------------------------------------------------
+*/
+
+/* Tablet (768px and down) */
+@media screen and (max-width: 768px) {
+  .banner-wrapper {
+    padding: 20px;
+    min-height: 80px;
+  }
+  
+  .slide-text {
+    font-size: 18px;
+    padding: 15px;
+  }
+}
+
+/* Mobile (480px and down) */
+@media screen and (max-width: 480px) {
+  .banner-wrapper {
+    padding: 15px 10px;
+    min-height: 60px;
+  }
+  
+  .slide-text {
+    font-size: 16px;
+    padding: 10px;
+    width: 70%;
+    white-space: normal;
+  }
+}
+
+/* Small Mobile (320px and down) */
+@media screen and (max-width: 320px) {
+  .banner-wrapper {
+    padding: 10px 5px;
+    min-height: 50px;
+  }
+  
+  .slide-text {
+    font-size: 14px;
+    padding: 8px;
+    width: 80%;
+  }
+} 

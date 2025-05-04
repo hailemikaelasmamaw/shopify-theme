@@ -6,27 +6,16 @@
     </div>
   </section>
   
+  {{ 'banner.css' | asset_url | stylesheet_tag }}
+  
   <style>
     .banner-wrapper {
-      padding: 30px;
       background: {{ section.settings.background }}
       ;
       color: {{ section.settings.text_color }}
       ;
-  
     }
-  
-    .slide-text {
-        position: absolute;
-        top: 155px;
-        left: -150%; /* Initially position the divs outside the left edge of the screen */
-        transform: translate(0, -50%);
-        color: black;
-        padding: 20px;
-        font-size: 20px;
-      transition: left 0.5s ease-in-out; /* Add a smooth transition effect */
-    }
-    </style>
+  </style>
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -40,12 +29,14 @@
 
       // Function to slide the text to the middle
         function slideToMiddle(element) {
-        element.style.left = '40%';
+        element.style.left = '50%';
+        element.style.transform = 'translate(-50%, -50%)';
         }
 
       // Function to reset the position of the text
         function resetPosition(element) {
         element.style.left = '-100%';
+        element.style.transform = 'translate(0, -50%)';
         }
 
       // Function to handle sliding the text elements

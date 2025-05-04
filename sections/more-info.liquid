@@ -1,7 +1,7 @@
 <section class="more-info">
     <div class="more-info-wrapper">
       {%- if section.settings.text != blank -%}
-        <h1>THE ROOTED IN GOLD STARTER PACK</h1>
+        <h1> ROOTED IN GOLD STARTER PACK</h1>
       {%- else -%}
         <h1>{{ block.settings.text | escape }}</h1>
       {%- endif -%}
@@ -28,34 +28,60 @@
       ;
       display: flex;
       justify-content: center;
+      padding: 40px 20px;
     }
   
-     .more-info-wrapper{
+      .more-info-wrapper{
         display: flex;
         flex-direction: column;
-        width: 500px;
+        width: 100%;
+        max-width: 500px;
         justify-content: center;
         align-items: center;
-     }
+        text-align: center;
+      }
   
-     .more-info-wrapper h1 {
+      .more-info-wrapper h1 {
         font-size: 50px;
+        margin-bottom: 15px;
+      }
+      
+      .more-info-wrapper p {
+        margin-bottom: 25px;
+      }
   
-     }
-  
-     .more-info-wrapper button {
+      .more-info-wrapper button {
         padding: 10px 20px 10px 20px;
         background-color: black;
         border: none;
         color: white;
         border-radius: 20px;
         cursor: pointer;
-     }
+      }
   
-     .more-info-wrapper button:hover {
+      .more-info-wrapper button:hover {
         background-color: rgb(185, 185, 185);
-  
-     }
+      }
+      
+      @media screen and (max-width: 768px) {
+        .more-info-wrapper h1 {
+          font-size: 36px;
+        }
+      }
+      
+      @media screen and (max-width: 480px) {
+        .more-info {
+          padding: 30px 15px;
+        }
+        
+        .more-info-wrapper h1 {
+          font-size: 28px;
+        }
+        
+        .more-info-wrapper p {
+          font-size: 16px;
+        }
+      }
   </style>
   {% schema %}
   {

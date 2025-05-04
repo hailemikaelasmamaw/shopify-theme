@@ -27,36 +27,75 @@
 <style>
     .all-collections {
         background: {{ section.settings.background }};
-    color: {{ section.settings.text_color }};
-    padding: 10px;
+        color: {{ section.settings.text_color }};
+        padding: 10px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .collection-container {
-    position: relative;
-    overflow-x: scroll;
+        position: relative;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     .all-collections-wrapper {
-    display: flex;
-      transition: transform 0.3s ease; /* Add smooth transition effect */
+        display: flex;
+        flex-wrap: nowrap;
+        transition: transform 0.3s ease;
     }
 
     .collection-card {
-    padding: 5px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+        padding: 5px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-width: 300px;
+        width: 100%;
     }
-  
+
+    .collection-card img {
+        max-width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+
     .collection-card h3 a {
-    color: black;
-    text-decoration: none
+        color: black;
+        text-decoration: none;
     }
 
     .collection-card a:hover {
-    text-decoration: underline;
+        text-decoration: underline;
+    }
+    
+    /* Responsive styles */
+    @media screen and (max-width: 768px) {
+        .collection-card {
+            min-width: 200px;
+        }
+        
+        .all-collections h1 {
+            font-size: 24px;
+            text-align: center;
+        }
+    }
+    
+    @media screen and (max-width: 480px) {
+        .collection-card {
+            min-width: 150px;
+        }
+        
+        .collection-card img {
+            width: 150px;
+            height: 150px;
+        }
+        
+        .collection-card h3 {
+            font-size: 14px;
+        }
     }
 </style>
 
@@ -66,19 +105,21 @@
         const scrollLeftButton = document.querySelector('.scroll-left');
         const scrollRightButton = document.querySelector('.scroll-right');
 
-        scrollLeftButton.addEventListener('click', function () {
-        wrapper.scrollBy({
-          left: -300, // Adjust based on your card width
-            behavior: 'smooth',
-        });
-    });
+        if (scrollLeftButton && scrollRightButton) {
+            scrollLeftButton.addEventListener('click', function () {
+                wrapper.scrollBy({
+                    left: -300, // Adjust based on your card width
+                    behavior: 'smooth',
+                });
+            });
 
-    scrollRightButton.addEventListener('click', function () {
-        wrapper.scrollBy({
-            left: 300, // Adjust based on your card width
-            behavior: 'smooth',
-        });
-    });
+            scrollRightButton.addEventListener('click', function () {
+                wrapper.scrollBy({
+                    left: 300, // Adjust based on your card width
+                    behavior: 'smooth',
+                });
+            });
+        }
     });
 </script>
 

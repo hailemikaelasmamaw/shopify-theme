@@ -1,16 +1,91 @@
-<section>
-    {% if search.performed %}
-        <h1>search page</h1>
-        <div>
-
-            {% for result in search.results %}
-            <p>{{ result.object_type }}</p>
-            {% endfor %}
-            {% else %}
-            <h1>not results found!</h1>
-        </div>
-    {% endif %}
+<section class="search-section">
+    <div class="search-container">
+        {% if search.performed %}
+            <h1 class="search-title">search page</h1>
+            <div class="search-results">
+                {% for result in search.results %}
+                <p class="search-result-type">{{ result.object_type }}</p>
+                {% endfor %}
+                {% else %}
+                <h1 class="search-not-found">not results found!</h1>
+            </div>
+        {% endif %}
+    </div>
 </section>
+
+<style>
+    .search-section {
+        padding: 20px;
+        background-color: {{ section.settings.background }};
+        color: {{ section.settings.text_color }};
+        display: block !important; /* Ensure it's always visible */
+        width: 100%;
+        box-sizing: border-box;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    .search-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .search-title, .search-not-found {
+        margin-bottom: 20px;
+    }
+    
+    .search-results {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .search-result-type {
+        padding: 10px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+    }
+    
+    /* Mobile responsiveness */
+    @media screen and (max-width: 768px) {
+        .search-section {
+            padding: 15px;
+            display: block !important; /* Force display on mobile */
+            min-height: 200px; /* Ensure minimum height */
+            overflow: visible !important; /* Ensure content is not hidden */
+            visibility: visible !important;
+            opacity: 1 !important;
+            position: static !important; /* Prevent positioning issues */
+        }
+        
+        .search-title, .search-not-found {
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        
+        .search-results {
+            width: 100%;
+        }
+        
+        .search-result-type {
+            width: 100%;
+            box-sizing: border-box;
+        }
+    }
+    
+    /* Small mobile devices */
+    @media screen and (max-width: 480px) {
+        .search-section {
+            padding: 10px;
+            display: block !important;
+            visibility: visible !important;
+        }
+        
+        .search-title, .search-not-found {
+            font-size: 1.2rem;
+        }
+    }
+</style>
 
 {% schema %}
 {

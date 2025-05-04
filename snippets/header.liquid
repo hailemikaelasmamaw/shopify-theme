@@ -1,5 +1,5 @@
 <header class="header-nav">
-    <div>
+    <div class="logo-container">
       {% comment %} <h1>{{ shop.name }}</h1> {% endcomment %}
       <a href="/">
         <img
@@ -11,7 +11,12 @@
       </a>
     </div>
   
-    <div>
+    <div class="nav-container">
+      <button class="mobile-menu-toggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
       <ul class="middle-nav-links">
         {% for link in linklists['main-menu'].links -%}
           <li>{{ link.title | link_to: link.url }}</li>
@@ -20,11 +25,11 @@
     </div>
   
     <div class="right-nav-items">
-      <form action="/search">
+      <form action="/search" class="search-form">
         <input class="search-nav" placeholder="search" type="search">
       </form>
   
-      <a href="/cart">
+      <a href="/cart" class="cart-link">
         <img
           class="shopping-img"
           width="40"
@@ -38,12 +43,13 @@
   
   <style>
     .shopping-img {
-      cursor: 'pointer';
+      cursor: pointer;
       margin-bottom: 10px;
     }
     .header-nav {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       margin: 0;
       padding: 1px;
       background-color: white;
@@ -81,4 +87,101 @@
       border: none;
       background-color: rgb(239, 234, 234);
     }
+
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 24px;
+    }
+
+    .mobile-menu-toggle span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background-color: #000;
+      transition: all 0.3s ease;
+    }
+
+    /* Media Queries for Responsive Design */
+    @media screen and (max-width: 768px) {
+      .header-nav {
+        padding: 0 15px;
+        position: relative;
+      }
+
+      .mobile-menu-toggle {
+        display: flex;
+        margin-right: 10px;
+      }
+
+      .nav-container {
+        order: 2;
+        flex: 1;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .middle-nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: white;
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        z-index: 100;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+      }
+
+      .middle-nav-links.active {
+        max-height: 300px;
+      }
+
+      .middle-nav-links li {
+        width: 100%;
+        text-align: center;
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .search-form {
+        display: none;
+      }
+
+      .logo-container {
+        order: 1;
+        flex: 1;
+      }
+
+      .right-nav-items {
+        order: 3;
+        justify-content: flex-end;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .header-nav {
+        padding: 0 10px;
+      }
+    }
   </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const menuToggle = document.querySelector('.mobile-menu-toggle');
+      const navLinks = document.querySelector('.middle-nav-links');
+      
+      menuToggle.addEventListener('click', function() {
+        navLinks.classList.toggle('active');
+      });
+    });
+  </script>
