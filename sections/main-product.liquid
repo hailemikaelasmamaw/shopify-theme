@@ -12,7 +12,6 @@
         <h2>{{ product.title }}</h2>
         <p>{{ product.price | money }}</p>
         <p>{{ product.description }}</p>
-        <h3>Select Size</h3>
         {% form 'product', product %}
           <select name="id">
             {% for variant in product.variants %}
@@ -20,25 +19,71 @@
                 {{ variant.title }}
               </option>
             {% endfor %}
+            <h3>Select Size</h3>
+            {% for size in product.options_with_values %}
+              <option value="{{size.id }}">
+                {{ size.name }}
+              </option>
+            {% endfor %}
           </select>
         {% endform %}
-        <button type="submit">Add to Card</button>
-        <input type="submit" value="Add to cart">
+        <button type="submit">Add to Cart</button>
       </div>
     </div>
   </section>
   
   <style>
-     .product-main {
-       background: {{ section.settings.background }}
-       ;
-       color: {{ section.settings.text_color }}
-       ;
-       padding: 10px;
-     }
+    .product-main {
+          background: {{ section.settings.background }};
+          color: {{ section.settings.text_color }};
+          padding: 10px;
+        }
   
-     .product-main-wrapper {
-       display: flex;
+    .product-main-wrapper {
+        display: flex;
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 30px 20px;
+    }
+    
+    .product-main-wrapper > div {
+        flex: 1;
+    }
+    
+    .product-main-wrapper img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
+    
+    @media screen and (max-width: 768px) {
+      .product-main-wrapper {
+        flex-direction: column;
+        padding: 20px 15px;
+      }
+    }
+    
+    @media screen and (max-width: 480px) {
+      .product-main-wrapper {
+        padding: 15px 10px;
+      }
+      
+      .product-main-wrapper h2 {
+        font-size: 24px;
+        margin-top: 15px;
+      }
+      
+      .product-main-wrapper p {
+        font-size: 16px;
+        line-height: 1.4;
+      }
+      
+      select, button {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+      }
     }
   </style>
   
