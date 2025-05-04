@@ -13,21 +13,35 @@
         <p>{{ product.price | money }}</p>
         <p>{{ product.description }}</p>
         {% form 'product', product %}
-          <select name="id">
-            {% for variant in product.variants %}
-              <option value="{{variant.id }}">
-                {{ variant.title }}
-              </option>
-            {% endfor %}
+          <div class="product-variant-selector">
+            <h3>Select Variant</h3>
+            <select name="id">
+              {% for variant in product.variants %}
+                <option value="{{ variant.id }}">
+                  {{ variant.title }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+          
+          <div class="product-size-selector">
             <h3>Select Size</h3>
-            {% for carat in product.options_with_values %}
-              <option value="{{carat.id }}">
-                {{ carat.name }}
-              </option>
+            {% for option in product.options_with_values %}
+              {% if option.name == 'Size' %}
+                <div class="size-options">
+                  {% for value in option.values %}
+                    <label class="size-option">
+                      <input type="radio" name="options[{{ option.name }}]" value="{{ value }}" {% if forloop.first %}checked{% endif %}>
+                      <span>{{ value }}</span>
+                    </label>
+                  {% endfor %}
+                </div>
+              {% endif %}
             {% endfor %}
-          </select>
+          </div>
+          
+          <button type="submit">Add to Cart</button>
         {% endform %}
-        <button type="submit">Add to Cart</button>
       </div>
     </div>
   </section>
@@ -55,6 +69,50 @@
         max-width: 100%;
         height: auto;
         display: block;
+    }
+    
+    .product-variant-selector,
+    .product-size-selector {
+        margin-bottom: 20px;
+    }
+    
+    .product-variant-selector select,
+    button[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+    }
+    
+    .size-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 8px;
+    }
+    
+    .size-option {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 40px;
+        height: 40px;
+        border: 1px solid #ddd;
+        cursor: pointer;
+    }
+    
+    .size-option input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+    
+    .size-option span {
+        padding: 0 10px;
+    }
+    
+    .size-option input:checked + span {
+        background-color: #f0f0f0;
+        border-color: #999;
     }
     
     @media screen and (max-width: 768px) {
