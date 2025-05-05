@@ -1,0 +1,81 @@
+/* --- Custom Product Page Styles --- */
+.custom-product-section {
+    padding: 3rem 1rem;
+  }
+  
+  .custom-product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+  
+  .custom-product-gallery {
+    flex: 1 1 45%;
+  }
+  
+  .custom-product-details {
+    flex: 1 1 45%;
+  }
+  
+  .custom-product-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+  }
+  
+  .custom-product-price {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #4B5563;
+    margin-bottom: 1rem;
+  }
+  
+  .custom-product-variants label {
+    display: block;
+    font-weight: 500;
+    margin: 1rem 0 0.3rem;
+  }
+  
+  .custom-product-variants select {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .custom-product-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .custom-add-to-cart,
+  .custom-buy-now {
+    padding: 0.9rem;
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .custom-add-to-cart {
+    background-color: white;
+    color: #374151;
+    border: 1px solid #D1D5DB;
+  }
+  
+  .custom-buy-now {
+    background-color: #374151;
+    color: white;
+  }
+  
+  .custom-product-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #4B5563;
+  }
+  
