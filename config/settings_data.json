@@ -1,6 +1,6 @@
 {
   "current": {
-    "color_scheme": "default"
+    "color": "#FFFFFF"
   },
   "presets": {
     "default": {
@@ -8,7 +8,7 @@
         "main-cart": {
           "type": "main-cart",
           "settings": {
-            "color_scheme": "default"
+            "color": "#FFFFFF"
           }
         }
       }

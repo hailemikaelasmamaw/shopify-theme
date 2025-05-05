@@ -1,21 +1,20 @@
 [
     {
         "name": "theme_info",
-        "theme_name": "Nike",
-        "theme_author": "Stephano",
-        "theme_version": "2.8.4",
+        "theme_name": "jewelry",
+        "theme_author": "Hailemichael",
+        "theme_version": "1.0.0",
         "theme_documentation_url": "https://example.com/documentation",
         "theme_support_url": "https://example.com/support"
     },
     {
-        "name": "Colors",
+        "name": "Theme settings",
         "settings": [
-            {
-                "type": "color",
-                "id": "bg",
-                "label": "Background color",
-                "default": "#ffffff"
-            }
+        {
+            "type": "color",
+            "id": "color",
+            "label": "Color"
+        }
         ]
     },
     {
