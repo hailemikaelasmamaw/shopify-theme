@@ -25,7 +25,11 @@
             {{ line_item.total_price | money }} 
         </div>
         <div class="line-item-remove">
-            <button class="line-item-remove-button" name="remove" type="submit" value="{{ line_item.id }}">Remove</button>
+            <form action="/cart/change" method="post">
+                <a class="line-item-remove" href="{{ line_item.url_to_remove }}"> 
+                    <button class="line-item-remove-button" name="remove" type="submit" value="{{ line_item.id }} quantity:0" >Remove</button>
+                </a>
+            </form>
         </div>
     </div>
 </div>
