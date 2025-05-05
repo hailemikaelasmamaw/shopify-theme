@@ -1,0 +1,34 @@
+
+<div class="line-item">
+    <div class="line-item-left">
+        <div class="line-item-image-wrapper">
+            <img src="{{ line_item.image | image_url: 'master' }}" alt="{{ line_item.product.title }}" width="100" height="100">
+        </div>
+    </div>
+    <div class="line-item-details">
+        <h2 class="line-item-title">{{ line_item.product.title }}</h2>
+        {% for option in line_item.options_with_values %}
+            <div class="line-item-option">
+                <span class="line-item-option-name">{{ option.name }}:</span>
+                <span class="line-item-option-value">{{ option.value }}</span>
+            </div>
+        {% endfor %}
+        <div class="line-item-price">
+            {{ line_item.price | money }}
+        </div>
+        <div class="line-item-quantity">
+            <span class="line-item-quantity-text">Quantity:</span>
+            <span class="line-item-quantity-value">{{ line_item.quantity }}</span>
+            <input type="text" name="updates[]" value="{{ line_item.quantity }}" size="4" id="updates_{{ line_item.id }}" value="{{ line_item.quantity }}">
+        </div>
+        <div class="line-item-total">
+            {{ line_item.total_price | money }} 
+        </div>
+        <div class="line-item-remove">
+            <button class="line-item-remove-button" name="remove" type="submit" value="{{ line_item.id }}">Remove</button>
+        </div>
+    </div>
+</div>
+    
+
+

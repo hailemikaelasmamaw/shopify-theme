@@ -1,0 +1,51 @@
+<div class="cart">
+    <div class="cart_header">
+        <h1>Cart</h1>
+        <form class="cart_wrapper" action="/cart" method="post">
+            <div class="cart_items cart_block">
+                {% for line_item in cart.items %}
+                    <div class="cart_item">
+                        <div class="cart_item_image">
+                            <img src="{{ line_item.image | image_url: '100x' }}" alt="{{ line_item.product.title }}" width="100" height="100">
+                        </div>
+                    {% render 'line-item', line_item: line_item %}
+                        <div class="cart_item_info">
+                            <h2>{{ line_item.product.title }}</h2>
+                            <p>{{ line_item.product.price | money }}</p>
+                            <p>{{ line_item.quantity }}</p>
+                            <p>{{ line_item.total_price | money }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="cart_summary cart_block">
+                <div class="cart_subtotal">
+                    <span class="cart_subtotal_label">Subtotal</span>
+                    <span class="cart_subtotal_value">{{ cart.total_price | money }}</span>
+                </div>
+                <button type="submit" class="button" name="checkout">Checkout</button>
+                {% for item in cart.items %}
+                    <div class="cart_item_remove">
+                        <a href="{{ item.url_to_remove }}">Remove {{ item.product.title }}</a>
+                    </div>
+                {% endfor %}
+                <div class="cart_item_update">
+                    <button type="submit" class="button">Update Quantity</button>
+                </div>
+            </div>
+        </form>
+        {% for item in cart.items %}
+            {% unless item.properties == empty %}
+                {% for property in item.properties %}
+                    {{ property.first }}:
+                
+                {% if property.last contains '/uploads/' %}
+                    <a href="{{ property.last }}">{{ property.last | split: '/' | last }}</a>
+                {% else %}
+                    {{ property.last }}
+                {% endif %}
+                {% endfor %}
+            {% endunless %}
+            {% endfor %}
+    </div>
+</div>
