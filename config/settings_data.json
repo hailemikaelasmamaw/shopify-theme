@@ -1,3 +1,17 @@
 {
-  "current": {}
+  "current": {
+    "color_scheme": "default"
+  },
+  "presets": {
+    "default": {
+      "sections": {
+        "main-cart": {
+          "type": "main-cart",
+          "settings": {
+            "color_scheme": "default"
+          }
+        }
+      }
+    }
+  }
 }
