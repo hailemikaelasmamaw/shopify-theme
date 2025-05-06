@@ -37,51 +37,71 @@ async function initializeCart() { // Make async to await refresh
 async function refreshCartSection() {
   const cartSectionContainer = document.querySelector('.cart-section'); // Target the main container
   if (!cartSectionContainer) {
-    console.error('Cart section container not found.');
+    console.error('refreshCartSection: Cart section container (.cart-section) not found.');
     return;
   }
+  console.log('refreshCartSection: Found container:', cartSectionContainer);
 
   // Extract the section ID from the container's ID (e.g., "cart-section-main-cart")
   const sectionId = cartSectionContainer.id.replace('cart-section-', '');
   if (!sectionId) {
-    console.error('Could not determine cart section ID.');
+    console.error(`refreshCartSection: Could not determine cart section ID from container ID: ${cartSectionContainer.id}`);
     return;
   }
+  console.log(`refreshCartSection: Determined section ID: ${sectionId}`);
 
   try {
+    console.log(`refreshCartSection: Fetching HTML for section ID: ${sectionId}`);
     const response = await fetch(`/cart?section_id=${sectionId}`);
+    console.log(`refreshCartSection: Fetch response status: ${response.status}`);
     if (!response.ok) {
-      throw new Error(`Network response was not ok: ${response.statusText}`);
+      throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
     }
     const html = await response.text();
+    console.log(`refreshCartSection: Fetched HTML (length: ${html.length})`);
 
     // Create a temporary element to parse the fetched HTML
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = html;
+    console.log('refreshCartSection: Parsed fetched HTML into temp element.');
 
-    // Find the specific cart section content within the fetched HTML
-    const newCartContent = tempDiv.querySelector(`#cart-section-${sectionId}`);
+    // Try to find the specific cart section content within the fetched HTML
+    let newCartInnerHTML = null;
+    const newCartContentWrapper = tempDiv.querySelector(`#cart-section-${sectionId}`);
 
-    if (newCartContent) {
+    if (newCartContentWrapper) {
+      console.log('refreshCartSection: Found new cart content wrapper within fetched HTML.');
+      newCartInnerHTML = newCartContentWrapper.innerHTML;
+    } else if (tempDiv.childNodes.length > 0) {
+      // If the wrapper isn't found, assume the fetched HTML *is* the inner content of the section
+      console.log(`refreshCartSection: Element with ID #cart-section-${sectionId} not found. Assuming fetched HTML is the direct inner content.`);
+      newCartInnerHTML = tempDiv.innerHTML; // Use the innerHTML of the tempDiv itself
+    }
+
+    if (newCartInnerHTML !== null) {
+      console.log('refreshCartSection: Successfully determined new cart innerHTML.');
       // Replace the existing content
-      cartSectionContainer.innerHTML = newCartContent.innerHTML;
-      console.log('Cart section refreshed successfully.');
+      cartSectionContainer.innerHTML = newCartInnerHTML;
+      console.log('refreshCartSection: Replaced cart section container innerHTML.');
 
       // Re-initialize dynamic elements within the newly rendered content
+      console.log('refreshCartSection: Re-initializing quantity inputs, buttons, and remove buttons.');
       initializeQuantityInputs();
       initializeQuantityButtons();
       initializeRemoveButtons();
+      console.log('refreshCartSection: Re-initialization complete. Cart section refreshed successfully.');
       // No need to call updateCartUI separately as the fresh render includes correct totals/counts
     } else {
-      console.error('Could not find cart section content in fetched HTML.');
-      // Optionally, fall back to updateCartUI or show an error
-      await updateCartUI(); // Fallback to updating counts/totals if full refresh fails
+      console.error(`refreshCartSection: Could not extract new cart content from fetched HTML. HTML length: ${html.length}. Falling back to updateCartUI.`);
+      // Fallback to updating counts/totals if full refresh fails
+      await updateCartUI();
     }
 
   } catch (error) {
-    console.error('Error refreshing cart section:', error);
-    // Optionally, fall back to updateCartUI or show an error
-    await updateCartUI(); // Fallback on error
+    console.error('refreshCartSection: Error during fetch or processing:', error);
+    // Fallback to updating counts/totals on error
+    console.log('refreshCartSection: Falling back to updateCartUI due to error.');
+    await updateCartUI();
   }
 }
 
