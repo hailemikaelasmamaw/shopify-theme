@@ -1,38 +1,296 @@
-
 <div class="line-item">
-    <div class="line-item-left">
-        <div class="line-item-image-wrapper">
-            <img src="{{ line_item.image | image_url: 'master' }}" alt="{{ line_item.product.title }}" width="100" height="100">
-        </div>
+  <div class="line-item-product">
+    <div class="line-item-image">
+      <img 
+        src="{{ line_item.image | image_url: width: 100 }}" 
+        alt="{{ line_item.product.title }}" 
+        width="100" 
+        height="100"
+        class="line-item-image-img"
+      >
     </div>
     <div class="line-item-details">
-        <h2 class="line-item-title">{{ line_item.product.title }}</h2>
-        {% for option in line_item.options_with_values %}
+      <h3 class="line-item-title">
+        <a href="{{ line_item.url }}" class="line-item-title-link">
+          {{ line_item.product.title }}
+        </a>
+      </h3>
+      
+      {% if line_item.product.has_only_default_variant == false %}
+        <div class="line-item-variant">
+          {% for option in line_item.options_with_values %}
             <div class="line-item-option">
-                <span class="line-item-option-name">{{ option.name }}:</span>
-                <span class="line-item-option-value">{{ option.value }}</span>
+              <span class="line-item-option-name">{{ option.name }}:</span>
+              <span class="line-item-option-value">{{ option.value }}</span>
             </div>
-        {% endfor %}
-        <div class="line-item-price">
-            {{ line_item.price | money }}
+          {% endfor %}
         </div>
-        <div class="line-item-quantity">
-            <span class="line-item-quantity-text">Quantity:</span>
-            <span class="line-item-quantity-value">{{ line_item.quantity }}</span>
-            <input type="text" name="updates[]" value="{{ line_item.quantity }}" size="4" id="updates_{{ line_item.id }}" value="{{ line_item.quantity }}">
+      {% endif %}
+      
+      {% if line_item.properties.size > 0 %}
+        <div class="line-item-properties">
+          {% for property in line_item.properties %}
+            {% unless property.first == '_' %}
+              <div class="line-item-property">
+                <span class="line-item-property-name">{{ property.first }}:</span>
+                <span class="line-item-property-value">
+                  {% if property.last contains '/uploads/' %}
+                    <a href="{{ property.last }}" class="line-item-property-link">
+                      {{ property.last | split: '/' | last }}
+                    </a>
+                  {% else %}
+                    {{ property.last }}
+                  {% endif %}
+                </span>
+              </div>
+            {% endunless %}
+          {% endfor %}
         </div>
-        <div class="line-item-total">
-            {{ line_item.total_price | money }} 
+      {% endif %}
+      
+      {% if line_item.selling_plan_allocation %}
+        <div class="line-item-selling-plan">
+          {{ line_item.selling_plan_allocation.selling_plan.name }}
         </div>
-        <div class="line-item-remove">
-            <form action="/cart/change" method="post">
-                <a class="line-item-remove" href="{{ line_item.url_to_remove }}"> 
-                    <button class="line-item-remove-button" name="remove" type="submit" value="{{ line_item.id }} quantity:0" >Remove</button>
-                </a>
-            </form>
-        </div>
+      {% endif %}
     </div>
+  </div>
+  
+  <div class="line-item-price">
+    {% if line_item.original_price != line_item.final_price %}
+      <span class="line-item-price-original">{{ line_item.original_price | money }}</span>
+      <span class="line-item-price-final">{{ line_item.final_price | money }}</span>
+    {% else %}
+      <span class="line-item-price-regular">{{ line_item.original_price | money }}</span>
+    {% endif %}
+  </div>
+  
+  <div class="line-item-quantity">
+    <div class="line-item-quantity-wrapper">
+      <button 
+        type="button" 
+        class="line-item-quantity-button line-item-quantity-decrease" 
+        name="minus" 
+        aria-label="Decrease quantity for {{ line_item.product.title }}"
+      >
+        -
+      </button>
+      <input 
+        type="number" 
+        name="updates[]" 
+        id="updates_{{ line_item.key }}" 
+        class="line-item-quantity-input" 
+        value="{{ line_item.quantity }}" 
+        min="0" 
+        aria-label="Quantity for {{ line_item.product.title }}" 
+        data-line-item-key="{{ line_item.key }}"
+      >
+      <button 
+        type="button" 
+        class="line-item-quantity-button line-item-quantity-increase" 
+        name="plus" 
+        aria-label="Increase quantity for {{ line_item.product.title }}"
+      >
+        +
+      </button>
+    </div>
+  </div>
+  
+  <div class="line-item-total">
+    <span class="line-item-total-price">{{ line_item.final_line_price | money }}</span>
+  </div>
+  
+  <div class="line-item-remove">
+    <button 
+      type="button" 
+      class="line-item-remove-button" 
+      aria-label="Remove {{ line_item.product.title }} from cart"
+      data-line-item-key="{{ line_item.key }}"
+    >
+      &times;
+    </button>
+  </div>
 </div>
+
+<style>
+  .line-item {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr 0.5fr;
+    align-items: center;
+    padding: 1rem;
+  }
+  
+  .line-item-product {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .line-item-image {
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+  }
+  
+  .line-item-image-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.25rem;
+  }
+  
+  .line-item-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .line-item-title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .line-item-title-link {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  .line-item-title-link:hover {
+    text-decoration: underline;
+  }
+  
+  .line-item-variant,
+  .line-item-properties,
+  .line-item-selling-plan {
+    font-size: 0.875rem;
+    color: #666;
+  }
+  
+  .line-item-option,
+  .line-item-property {
+    display: flex;
+    gap: 0.25rem;
+  }
+  
+  .line-item-price {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .line-item-price-original {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 0.875rem;
+  }
+  
+  .line-item-price-final {
+    font-weight: bold;
+  }
+  
+  .line-item-quantity {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .line-item-quantity-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e5e5e5;
+    border-radius: 0.25rem;
+    overflow: hidden;
+  }
+  
+  .line-item-quantity-button {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f5f5f5;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  .line-item-quantity-input {
+    width: 3rem;
+    height: 2rem;
+    border: none;
+    border-left: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e5e5;
+    text-align: center;
+    -moz-appearance: textfield;
+  }
+  
+  .line-item-quantity-input::-webkit-outer-spin-button,
+  .line-item-quantity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  .line-item-total {
+    font-weight: bold;
+  }
+  
+  .line-item-remove {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .line-item-remove-button {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid #e5e5e5;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: #999;
+    transition: all 0.2s ease;
+  }
+  
+  .line-item-remove-button:hover {
+    background: #f5f5f5;
+    color: #333;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .line-item {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      position: relative;
+      padding: 1.5rem 1rem;
+    }
     
-
-
+    .line-item-product {
+      grid-column: 1;
+    }
+    
+    .line-item-price {
+      grid-column: 1;
+      margin-left: 100px;
+    }
+    
+    .line-item-quantity {
+      grid-column: 1;
+      justify-content: flex-start;
+      margin-left: 100px;
+    }
+    
+    .line-item-total {
+      grid-column: 1;
+      margin-left: 100px;
+    }
+    
+    .line-item-remove {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+  }
+</style>
