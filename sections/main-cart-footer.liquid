@@ -1,0 +1,20 @@
+
+<!-- This file contains the footer section of the main cart page. It includes a note field for customers to add special instructions or comments about their order. -->
+<!-- The note field is conditionally displayed based on the 'show_cart_note' setting. The form is submitted to the cart with the note included. -->
+
+
+<div class="cart-footer">
+    <div class="cart-footer-note">
+        <h3>Special Instructions</h3>
+        {% if settings.show_cart_note %}
+            <p>
+                <label>Please add any special instructions or comments about your order below:
+                </label>
+                <input type="text" name="attribute" form="cart" value="{{ cart.attribute['Favorite color'] }}" />
+                </p>
+        lse %}
+                    <p>Special instructions are currently not available.</p>
+                {% endif %}
+            </div>
+        </div>ndif %}
+</div>
