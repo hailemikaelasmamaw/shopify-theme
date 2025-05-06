@@ -10,10 +10,14 @@ document.addEventListener('DOMContentLoaded', function() {
 /**
  * Initialize all cart functionality
  */
-function initializeCart() {
-  // Initialize add to cart forms
+async function initializeCart() { // Make async to await refresh
+  // Fetch and render the latest cart section content first
+  await refreshCartSection();
+
+  // Initialize add to cart forms (Note: Might be redundant if product-form.js handles adds)
+  // Consider removing initializeAddToCartForms() if adds only happen outside the cart page.
   initializeAddToCartForms();
-  
+
   // Initialize quantity inputs
   initializeQuantityInputs();
   
@@ -24,8 +28,63 @@ function initializeCart() {
   initializeRemoveButtons();
   
   // Update cart on page load
-  updateCartUI();
+  // updateCartUI(); // updateCartUI is now implicitly handled by refreshCartSection rendering
 }
+
+/**
+ * Fetch the rendered cart section HTML and update the DOM
+ */
+async function refreshCartSection() {
+  const cartSectionContainer = document.querySelector('.cart-section'); // Target the main container
+  if (!cartSectionContainer) {
+    console.error('Cart section container not found.');
+    return;
+  }
+
+  // Extract the section ID from the container's ID (e.g., "cart-section-main-cart")
+  const sectionId = cartSectionContainer.id.replace('cart-section-', '');
+  if (!sectionId) {
+    console.error('Could not determine cart section ID.');
+    return;
+  }
+
+  try {
+    const response = await fetch(`/cart?section_id=${sectionId}`);
+    if (!response.ok) {
+      throw new Error(`Network response was not ok: ${response.statusText}`);
+    }
+    const html = await response.text();
+
+    // Create a temporary element to parse the fetched HTML
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+
+    // Find the specific cart section content within the fetched HTML
+    const newCartContent = tempDiv.querySelector(`#cart-section-${sectionId}`);
+
+    if (newCartContent) {
+      // Replace the existing content
+      cartSectionContainer.innerHTML = newCartContent.innerHTML;
+      console.log('Cart section refreshed successfully.');
+
+      // Re-initialize dynamic elements within the newly rendered content
+      initializeQuantityInputs();
+      initializeQuantityButtons();
+      initializeRemoveButtons();
+      // No need to call updateCartUI separately as the fresh render includes correct totals/counts
+    } else {
+      console.error('Could not find cart section content in fetched HTML.');
+      // Optionally, fall back to updateCartUI or show an error
+      await updateCartUI(); // Fallback to updating counts/totals if full refresh fails
+    }
+
+  } catch (error) {
+    console.error('Error refreshing cart section:', error);
+    // Optionally, fall back to updateCartUI or show an error
+    await updateCartUI(); // Fallback on error
+  }
+}
+
 
 /**
  * Initialize add to cart forms
