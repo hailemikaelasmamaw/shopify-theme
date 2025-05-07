@@ -15,6 +15,23 @@
             {{ line_item.product.title }}
         </a>
       </h3>
+      {% for item in cart.items %}
+        {% if item.product.id == line_item.product.id %}
+        {% endif %}
+
+        {% unless item.properties == empty %}
+          {% for property in item.properties %}
+            {{ property.first }}:
+            {% if property.last contains "/uploads" %}
+              <a href="{{ property.last }}" class="line-item-property-link">
+                {{ property.last | split: '/' | last }}
+              </a>
+            {% else %}
+              {{ property.last }}
+            {% endif %}
+          {% endfor %}
+        {% endunless %}
+      {% endfor %}
       
       {% if line_item.product.has_only_default_variant == false %}
         <div class="line-item-variant">
@@ -64,7 +81,26 @@
       <span class="line-item-price-regular">{{ line_item.original_price | money }}</span>
     {% endif %}
   </div>
-  
+  {% for item in cart.items %}
+    {% if item.original_price > item.final_price %}
+      <div class="line-item-price-original">
+        <s>{{ item.original_price | money | t}}</s>
+      </div>
+    {% endif %}
+
+    {% if lineitem.line_level_discount_allocations.size > 0 %}
+      Discounts:
+      <ul>
+        {% for discount_allocation in line_item.line_level_discount_allocations %}
+          <li>
+            {{ discount_allocation.discount_application.title }} - {{ discount_allocation.amount | money }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endfor %}
+
+
   <div class="line-item-quantity">
     <div class="line-item-quantity-wrapper">
       <button 
@@ -81,9 +117,13 @@
         id="updates_{{ line_item.key }}" 
         class="line-item-quantity-input" 
         value="{{ line_item.quantity }}" 
-        min="0" 
+        min="1" 
+        max="{{ line_item.product.variants.first.inventory_quantity }}"
+        step="1"
         aria-label="Quantity for {{ line_item.product.title }}" 
         data-line-item-key="{{ line_item.key }}"
+        data-line-item-quantity="{{ line_item.quantity }}"
+        data-line-item-variant-title="{{ line_item.variant_title }}"
       >
       <button 
         type="button" 

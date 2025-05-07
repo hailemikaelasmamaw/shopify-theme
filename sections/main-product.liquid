@@ -1,172 +1,193 @@
+{% layout none %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ product.title }}</title>
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+  {{ 'cart.js' | asset_url | script_tag | defer }}
+</head>
+<body>
+
 <section class="product-main">
-    <div class="product-main-wrapper">
-      <div>
-        <img
-            width="600"
-            height="600"
-            loading="lazy"
-            src="{{ product.featured_image | image_url}}"
-        >
+  <div class="product-main-wrapper">
+    <div>
+      <img
+        width="600"
+        height="600"
+        loading="lazy"
+        src="{{ product.featured_image | image_url }}"
+        alt="{{ product.title }}"
+      >
     </div>
     <div>
-        <h2>{{ product.title }}</h2>
-        <p>{{ product.price | money }}</p>
-        <p>{{ product.description }}</p>
-        {% form 'product', product %}
-          <div class="product-variant-selector">
-            <h3>Select Variant</h3>
-            <select name="id">
-              {% for variant in product.variants %}
-                <option value="{{ variant.id }}">
-                  {{ variant.title }}
-                </option>
-              {% endfor %}
-            </select>
-          </div>
-          
-          <div class="product-size-selector">
-            <h3>Select Size</h3>
-            {% for option in product.options_with_values %}
-              {% if option.name == 'Size' %}
-                <div class="size-options">
-                  {% for value in option.values %}
-                    <label class="size-option">
-                      <input type="radio" name="options[{{ option.name }}]" value="{{ value }}" {% if forloop.first %}checked{% endif %}>
-                      <span>{{ value }}</span>
-                    </label>
-                  {% endfor %}
-                </div>
-              {% endif %}
+      <h2>{{ product.title }}</h2>
+      <p>{{ product.price | money }}</p>
+      <p>{{ product.description }}</p>
+
+      {% form 'product', product %}
+        <div class="product-variant-selector">
+          <h3>Select Variant</h3>
+          <select name="id">
+            {% for variant in product.variants %}
+              <option value="{{ variant.id }}">
+                {{ variant.title }}
+              </option>
             {% endfor %}
-          </div>
-          
-          <button type="submit">Add to Cart</button>
-        {% endform %}
-      </div>
+          </select>
+        </div>
+
+        <div class="product-size-selector">
+          <h3>Select Size</h3>
+          {% for option in product.options_with_values %}
+            {% if option.name == 'Size' %}
+              <div class="size-options">
+                {% for value in option.values %}
+                  <label class="size-option">
+                    <input type="radio" name="options[{{ option.name }}]" value="{{ value }}" {% if forloop.first %}checked{% endif %}>
+                    <span>{{ value }}</span>
+                  </label>
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+      {% endform %}
     </div>
-  </section>
-  
-  <style>
-    .product-main {
-          background: {{ section.settings.background }};
-          color: {{ section.settings.text_color }};
-          padding: 10px;
-        }
-  
-    .product-main-wrapper {
-        display: flex;
-        gap: 30px;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 30px 20px;
-    }
-    
-    .product-main-wrapper > div {
-        flex: 1;
-    }
-    
-    .product-main-wrapper img {
-        max-width: 100%;
-        height: auto;
-        display: block;
-    }
-    
-    .product-variant-selector,
-    .product-size-selector {
-        margin-bottom: 20px;
-    }
-    
-    .product-variant-selector select,
-    button[type="submit"] {
-        width: 100%;
-        padding: 10px;
-        margin: 8px 0;
-    }
-    
-    .size-options {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 8px;
-    }
-    
-    .size-option {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 40px;
-        height: 40px;
-        border: 1px solid #ddd;
-        cursor: pointer;
-    }
-    
-    .size-option input {
-        position: absolute;
-        opacity: 0;
-        cursor: pointer;
-    }
-    
-    .size-option span {
-        padding: 0 10px;
-    }
-    
-    .size-option input:checked + span {
-        background-color: #f0f0f0;
-        border-color: #999;
-    }
-    
-    @media screen and (max-width: 768px) {
-      .product-main-wrapper {
-        flex-direction: column;
-        padding: 20px 15px;
-      }
-    }
-    
-    @media screen and (max-width: 480px) {
-      .product-main-wrapper {
-        padding: 15px 10px;
-      }
-      
-      .product-main-wrapper h2 {
-        font-size: 24px;
-        margin-top: 15px;
-      }
-      
-      .product-main-wrapper p {
-        font-size: 16px;
-        line-height: 1.4;
-      }
-      
-      select, button {
-        width: 100%;
-        padding: 12px;
-        margin: 10px 0;
-      }
-    }
-  </style>
-  
-  {% schema %}
-  {
-    "name": "Product-main",
-    "settings": [
-      {
-        "type": "color",
-        "id": "background",
-        "label": "Background",
-        "default": "#F4F4F4"
-      },
-      {
-        "type": "color",
-        "id": "text_color",
-        "label": "Text",
-        "default": "#000000"
-      }
-    ],
-    "presets": [
-      {
-        "name": "product-main"
-      }
-    ]
+  </div>
+</section>
+
+<!-- Optional Cart Summary -->
+<div class="cart-section">
+  <!-- dynamically filled by cart.js -->
+</div>
+
+<style>
+  .product-main {
+    background: {{ section.settings.background }};
+    color: {{ section.settings.text_color }};
+    padding: 10px;
   }
-  {% endschema %}
-  
+
+  .product-main-wrapper {
+    display: flex;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+
+  .product-main-wrapper > div {
+    flex: 1;
+  }
+
+  .product-main-wrapper img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .product-variant-selector,
+  .product-size-selector {
+    margin-bottom: 20px;
+  }
+
+  .product-variant-selector select,
+  button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+  }
+
+  .size-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .size-option {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .size-option input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .size-option span {
+    padding: 0 10px;
+  }
+
+  .size-option input:checked + span {
+    background-color: #f0f0f0;
+    border-color: #999;
+  }
+
+  @media screen and (max-width: 768px) {
+    .product-main-wrapper {
+      flex-direction: column;
+      padding: 20px 15px;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .product-main-wrapper {
+      padding: 15px 10px;
+    }
+
+    .product-main-wrapper h2 {
+      font-size: 24px;
+      margin-top: 15px;
+    }
+
+    .product-main-wrapper p {
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Product-main",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background",
+      "default": "#F4F4F4"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#000000"
+    }
+  ],
+  "presets": [
+    {
+      "name": "product-main"
+    }
+  ]
+}
+{% endschema %}
+
+</body>
+</html>
