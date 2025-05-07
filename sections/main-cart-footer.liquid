@@ -7,14 +7,124 @@
     <div class="cart-footer-note">
         <h3>Special Instructions</h3>
         {% if settings.show_cart_note %}
+            <textarea name="note" form="cart" placeholder="Add any special instructions or comments about your order here...">{{ cart.note }}</textarea>
+        {% else %}
             <p>
                 <label>Please add any special instructions or comments about your order below:
                 </label>
                 <input type="text" name="attribute" form="cart" value="{{ cart.attribute['Favorite color'] }}" />
                 </p>
-        lse %}
-                    <p>Special instructions are currently not available.</p>
-                {% endif %}
-            </div>
-        </div>ndif %}
+        {% endif %}
+        <button type="submit" form="cart" class="btn btn--small btn--secondary cart-footer-note-button">Update Note</button>
+
+    </div>
 </div>
+<style>
+    .cart-footer {
+        background-color: {{ settings.background_color }};
+        color: {{ settings.text_color }};
+        padding: 20px;
+        border-top: 1px solid #ccc;
+    }
+    .cart-footer-note {
+        margin-top: 20px;
+    }
+    .cart-footer-note h3 {
+        margin-bottom: 10px;
+    }
+    .cart-footer-note textarea {
+        width: 100%;
+        height: 100px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    .cart-footer-note-button {
+        background-color: {{ settings.button_background }};
+        color: {{ settings.button_text }};
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+    }
+    .cart-footer-note-button:hover {
+        background-color: darken({{ settings.button_background }}, 10%);
+    }
+    @media (max-width: 768px) {
+        .cart-footer {
+            padding: 10px;
+        }
+        .cart-footer-note textarea {
+            height: 80px;
+        }
+    }
+    .cart-footer-note-button {
+        width: 100%;
+        margin-top: 10px;
+    }
+    .cart-footer-note-button:hover {
+        background-color: {{ settings.button_background }};
+        color: {{ settings.button_text }};
+    }
+    .cart-footer-note-button:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .cart-footer-note-button:active {
+        background-color: {{ settings.button_background }};
+        color: {{ settings.button_text }};
+    }
+
+{% schema %}
+{
+    "name": "Cart Footer",
+    "settings": [
+    {
+        "type": "checkbox",
+        "id": "show_cart_note",
+        "label": "Show cart note",
+        "default": true
+    }
+    ],
+    
+    "block": [
+    {
+        "type": "header",
+        "content": "Styling"
+    },
+    {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background color",
+        "default": "#FFFFFF"
+    },
+    {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text color",
+        "default": "#333333"
+    },
+    {
+        "type": "color",
+        "id": "button_background",
+        "label": "Button background",
+        "default": "#000000"
+    },
+    {
+        "type": "color",
+        "id": "button_text",
+        "label": "Button text",
+        "default": "#FFFFFF"
+    }
+    ],
+    "presets": [
+    {
+        "name": "Cart Footer",
+        "category": "Cart"
+    }
+    ]
+}
+{% endschema %}
+
+<!-- This file contains the footer section of the main cart page. It includes a note field for customers to add special instructions or comments about their order. -->
