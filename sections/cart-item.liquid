@@ -46,6 +46,7 @@
         <p class="cart-empty-text">You haven't added any items to your cart yet.</p>
         <div class="cart-empty-button-container">
           <a href="/collections/all" class="cart-empty-button">Start Shopping</a>
+          
         </div>
       </div>
     </div>
@@ -202,8 +203,21 @@
       "default": true
     },
     {
+      "type": "text",
+      "id": "cart_note_placeholder",
+      "label": "Cart note placeholder",
+      "default": "Add a note to your order"
+    },
+    {
+      "type": "text",
+      "id": "cart_note_button_text",
+      "label": "Cart note button text",
+      "default": "Add Note"
+    },
+    {
       "type": "header",
-      "content": "Styling"
+      "content": "Styling",
+
     },
     {
       "type": "color",
@@ -228,6 +242,16 @@
       "id": "button_text",
       "label": "Button text",
       "default": "#FFFFFF"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "header",
+      "name": "Header"
+    },
+    {
+      "type": "footer",
+      "name": "Footer"
     }
   ],
   "presets": [

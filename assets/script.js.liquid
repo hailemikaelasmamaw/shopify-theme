@@ -1,0 +1,39 @@
+const addToCartForm = document.querySelectorAll('form[action="/cart/add"]');
+//     form.addEventListener('submit', async (event) => {
+
+    addToCartForm.forEach((form) => {
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const submitButton = form.querySelector('[type="submit"]');
+            const originalButtonText = submitButton.innerHTML;
+            submitButton.innerHTML = 'Adding...';
+            submitButton.setAttribute('disabled', 'disabled');
+
+            try {
+                await fetch('/cart/add.js', {
+                method: 'POST',
+                body: formData,
+            });
+            // Update the cart section
+            const res = await fetch('/cart.json');
+            const cart = await res.json();
+
+            document.querySelectorAll(".cart-count").forEach((el) => {
+                el.textContent = cart.item_count;
+            });
+            document.querySelectorAll(".cart-price").forEach((el) => {
+                el.textContent = Shopify.formatMoney(cart.total_price, "{{amount}}");
+            });
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+        }
+        const message = document.createElement('p');
+        message.classList.add('added-to-cart');
+        message.textContent = 'Added to cart!';
+        form.appendChild(message);
+        setTimeout(() => {
+            message.remove();
+        }, 3000);
+    });
+})

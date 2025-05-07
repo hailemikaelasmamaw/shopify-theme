@@ -1,0 +1,41 @@
+{% assign products = products | default: collection.products %}
+
+<div class="collection-product-grid">
+  <div class="grid grid--uniform grid--view-items">
+    {% for product in products %}
+        <div class="grid__item grid__item--{{ section.settings.grid_item_width }}">
+            {% render 'product-card', product: product, show_vendor: section.settings.show_vendor, 
+                show_rating: section.settings.show_rating, show_price: section.settings.show_price, 
+                show_compare_at_price: section.settings.show_compare_at_price, show_add_to_cart: 
+                section.settings.show_add_to_cart %}
+        </div>
+    {% endfor %}
+  </div>
+</div>
+
+{%  paginate collection.products by page_size %}
+    
+    <div class="pagination">
+        {% if paginate.previous %}
+        <a href="{{ paginate.previous.url }}" class="pagination__link pagination__link--prev" title="{{ 'general.pagination.previous' | t: default: 'Previous' }}">
+            <span class="icon icon--chevron-left"></span>
+            <span class="pagination __text">{{ 'general.pagination.previous' | t: default: 'Previous' }}</span>
+            Previous
+        </a>
+    {% endif %}
+        {% for part in paginate.parts %}
+            {% if part.is_link %}
+                <a href="{{ part.url }}" class="pagination__link" title="{{ part.title }}">{{ part.title }}</a>
+            {% else %}
+                <span class="current">{{ part.title }}</span>
+            {% endif %}
+        {% endfor %}
+        {% if paginate.next %}
+        <a href="{{ paginate.next.url }}" class="pagination__link pagination__link--next" title="{{ 'general.pagination.next' | t: default: 'Next' }}">
+            <span class="icon icon--chevron-right"></span>
+            <span class="pagination__text">{{ 'general.pagination.next' | t: default: 'Next' }}</span>
+            Next
+        </a>
+        {% endif %}
+    </div>
+{% endpaginate %}
