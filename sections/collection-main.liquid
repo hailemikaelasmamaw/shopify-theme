@@ -1,0 +1,172 @@
+<div class="collection-main">
+    <div class="collection-main__header">
+        <h1 class="collection-main__title">{{ collection.title }}</h1>
+  
+        {% if collection.description != blank %}
+        <div class="collection-main__description">{{ collection.description }}</div>
+        {% endif %}
+
+        {% if collection.image != blank %}
+        <div class="collection-main__image">
+            <img src="{{ collection.image | image_url: 'large' }}" alt="{{ collection.title }}" width="{{ collection.image.width }}" height="{{ collection.image.height }}">
+        </div>
+        {% endif %}
+    </div>
+
+    {% render 'collection-product-grid', products: collection.products %}
+
+    <div class="collection-main__filters">
+        {% if collection.all_tags.size > 0 %}
+        <div class="collection-main__tags">
+            <h2>Filter by Tags</h2>
+            <ul class="collection-main__tag-list">
+            {% for tag in collection.all_tags %}
+                <li class="collection-main__tag-item">
+                <a href="{{ collection.url | append: '?constraint=' | append: tag }}" class="collection-main__tag-link">{{ tag }}</a>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+  
+        <div class="collection-main__sort">
+        <h2>Sort by</h2>
+        <select id="sort-by">
+            <option value="">Default</option>
+            <option value="best-selling" {% if collection.sort_by == 'best-selling' %}selected{% endif %}>Best Selling</option>
+            <option value="title-ascending" {% if collection.sort_by == 'title-ascending' %}selected{% endif %}>Alphabetically, A-Z</option>
+            <option value="title-descending" {% if collection.sort_by == 'title-descending' %}selected{% endif %}>Alphabetically, Z-A</option>
+            <option value="price-ascending" {% if collection.sort_by == 'price-ascending' %}selected{% endif %}>Price, low to high</option>
+            <option value="price-descending" {% if collection.sort_by == 'price-descending' %}selected{% endif %}>Price, high to low</option>
+            <option value="created-ascending" {% if collection.sort_by == 'created-ascending' %}selected{% endif %}>Date, old to new</option>
+            <option value="created-descending" {% if collection.sort_by == 'created-descending' %}selected{% endif %}>Date, new to old</option>
+        </select>
+        </div>
+
+        <div class="collection-main__view-mode">
+        <h2>View</h2>
+        <div>
+            <button class="collection-main__view-button" data-view="grid">Grid</button>
+            <button class="collection-main__view-button" data-view="list">List</button>
+        </div>
+        </div>
+    </div>
+
+    {% if collection.products_count > 0 %}
+        {% paginate collection.products by settings.collection_page_size %}
+        <div class="collection-main__pagination">
+            <div class="product-grid">
+            {% for product in collection.products %}
+                <div class="product-card">
+                <div class="product-card__image">
+                    <img src="{{ product.featured_image | image_url: 'large' }}" alt="{{ product.title }}" width="600" height="400">
+                </div>
+                <div class="product-card__details">
+                    <h2 class="product-card__title">{{ product.title }}</h2>
+                    <p class="product-card__price">{{ product.price | money }}</p>
+                    <button class="product-card__add-to-cart">Add to Cart</button>
+                </div>
+                </div>
+            {% endfor %}
+            </div>
+  
+            <div class="pagination__controls">
+            {% if paginate.previous %}
+                <a href="{{ paginate.previous.url }}" class="pagination__link pagination__link--prev">Previous</a>
+            {% endif %}
+            {% for part in paginate.parts %}
+                {% if part.is_link %}
+                <a href="{{ part.url }}" class="pagination__link">{{ part.title }}</a>
+                {% else %}
+                <span class="pagination__link pagination__link--current">{{ part.title }}</span>
+                {% endif %}
+            {% endfor %}
+            {% if paginate.next %}
+                <a href="{{ paginate.next.url }}" class="pagination__link pagination__link--next">Next</a>
+            {% endif %}
+            </div>
+        </div>
+        {% endpaginate %}
+    {% endif %}
+
+    {% if settings.show_cart_note %}
+        <div class="cart-footer-note">
+        <p>Notes are optional, but they can help you keep track of your purchases.</p>
+        <textarea class="cart-footer-note__input" placeholder="Add a note..."></textarea>
+        <button class="cart-footer-note__button">Add Note</button>
+        </div>
+    {% endif %}
+    </div>
+
+    {% schema %}
+    {
+
+    "name": "Collection Main",
+    "settings": [
+        {
+        "type": "text",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#ffffff"
+        },
+        {
+        "type": "text",
+        "id": "text_color",
+        "label": "Text Color",
+        "default": "#000000"
+        },
+        {
+        "type": "text",
+        "id": "button_background",
+        "label": "Button Background Color",
+        "default": "#007bff"
+        },
+        {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text Color",
+        "default": "#ffffff"
+        },
+        {
+        "type": "checkbox",
+        "id": "show_cart_note",
+        "label": "Show Cart Note",
+        "default": true
+        },
+        {
+        "type": "range",
+        "id": "collection_page_size",
+        "label": "Products per page",
+        "min": 4,
+        "max": 24,
+        "step": 4,
+        "default": 8
+        }
+    ],
+    "presets": [
+        {
+        "name": "Default",
+        "category": "Collection"
+        }
+    ]
+    }
+    {% endschema %}
+
+<style>
+    .collection-main {
+    background-color: {{ settings.background_color }};
+    color: {{ settings.text_color }};
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      Shopify.queryParams = {};
+  
+      if (location.search.length) {
+        var params = location.search.substr(1).split('&');
+        for (var i
+  

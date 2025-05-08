@@ -1,41 +1,167 @@
-{% assign products = products | default: collection.products %}
-
+{%- if section.settings.quick_add == 'standard' -%}
+    <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+  
+{%- if section.settings.quick_add == 'bulk' -%}
+    <script src="{{ 'quick-add-bulk.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
 <div class="collection-product-grid">
-  <div class="grid grid--uniform grid--view-items">
-    {% for product in products %}
+    {% for product in collection.products %}
         <div class="grid__item grid__item--{{ section.settings.grid_item_width }}">
-            {% render 'product-card', product: product, show_vendor: section.settings.show_vendor, 
-                show_rating: section.settings.show_rating, show_price: section.settings.show_price, 
-                show_compare_at_price: section.settings.show_compare_at_price, show_add_to_cart: 
-                section.settings.show_add_to_cart %}
+            {%- render 'product-card',
+                product: product,
+                show_vendor: section.settings.show_vendor,
+                show_rating: section.settings.show_rating,
+                show_price: section.settings.show_price,
+                show_compare_at_price: section.settings.show_compare_at_price,
+                show_add_to_cart: section.settings.show_add_to_cart
+            -%}
         </div>
     {% endfor %}
-  </div>
 </div>
 
-{%  paginate collection.products by page_size %}
-    
-    <div class="pagination">
+
+{%- paginate collection.products by section.settings.products_per_page | default: 12 -%}
+    <div class="collection-product-grid">
+        <div class="grid grid--uniform grid--view-items">
+        {%- for product in collection.products -%}
+            <div class="grid__item grid__item--{{ section.settings.grid_item_width }}">
+            {%- render 'product-card',
+                product: product,
+                show_vendor: section.settings.show_vendor,
+                show_rating: section.settings.show_rating,
+                show_price: section.settings.show_price,
+                show_compare_at_price: section.settings.show_compare_at_price,
+                show_add_to_cart: section.settings.show_add_to_cart
+            -%}
+            </div>
+        {%- endfor -%}
+        </div>
+    </div>
+
+    {% if paginate.pages > 1 %}
+        <div class="pagination">
         {% if paginate.previous %}
-        <a href="{{ paginate.previous.url }}" class="pagination__link pagination__link--prev" title="{{ 'general.pagination.previous' | t: default: 'Previous' }}">
+            <a href="{{ paginate.previous.url }}" class="pagination__link pagination__link--prev" title="{{ 'general.pagination.previous' | t }}">
             <span class="icon icon--chevron-left"></span>
-            <span class="pagination __text">{{ 'general.pagination.previous' | t: default: 'Previous' }}</span>
-            Previous
-        </a>
-    {% endif %}
+            <span class="pagination__text">{{ 'general.pagination.previous' | t }}</span>
+            </a>
+        {% endif %}
+
         {% for part in paginate.parts %}
             {% if part.is_link %}
-                <a href="{{ part.url }}" class="pagination__link" title="{{ part.title }}">{{ part.title }}</a>
+            <a href="{{ part.url }}" class="pagination__link" title="{{ part.title }}">{{ part.title }}</a>
             {% else %}
-                <span class="current">{{ part.title }}</span>
+            <span class="pagination__link pagination__link--current">{{ part.title }}</span>
             {% endif %}
         {% endfor %}
+
         {% if paginate.next %}
-        <a href="{{ paginate.next.url }}" class="pagination__link pagination__link--next" title="{{ 'general.pagination.next' | t: default: 'Next' }}">
+            <a href="{{ paginate.next.url }}" class="pagination__link pagination__link--next" title="{{ 'general.pagination.next' | t }}">
             <span class="icon icon--chevron-right"></span>
-            <span class="pagination__text">{{ 'general.pagination.next' | t: default: 'Next' }}</span>
-            Next
-        </a>
+            <span class="pagination__text">{{ 'general.pagination.next' | t }}</span>
+            </a>
         {% endif %}
-    </div>
-{% endpaginate %}
+        </div>
+    {% endif %}
+{%- endpaginate -%}
+{% schema %}
+    {
+        "name": "Collection Product Grid",
+        "settings": [
+        {
+            "type": "range",
+            "id": "products_per_page",
+            "label": "Products per page",
+            "default": 12,
+            "min": 1,
+            "max": 100,
+            "step": 1
+        },
+        {
+            "type": "checkbox",
+            "id": "show_vendor",
+            "label": "Show vendor",
+            "default": true
+        },
+        {
+            "type": "checkbox",
+            "id": "show_rating",
+            "label": "Show rating",
+            "default": true
+        },
+        {
+            "type": "checkbox",
+            "id": "show_price",
+            "label": "Show price",
+            "default": true
+        },
+        {
+            "type": "checkbox",
+            "id": "show_compare_at_price",
+            "label": "Show compare at price",
+            "default": true
+        },
+        {
+            "type": "checkbox",
+            "id": "show_add_to_cart",
+            "label": "Show add to cart button",
+            "default": true
+        },
+        {
+            "type": "checkbox",
+            "id": "show_quick_add",
+            "label": "Show quick add button",
+            "default": true
+        },
+        {
+            "type": "select",
+            "id": "quick_add",
+            "label": "Quick add type",
+            "options": [
+                { "value": "standard", "label": "Standard" },
+                { "value": "bulk", "label": "Bulk" }
+            ],
+            "default": "standard"
+        },
+        {
+            "type": "checkbox",
+            "id": "show_quick_add_bulks",
+            "label": "Show quick add button for bulk",
+            "default": true,
+            "info": "This setting is only applicable if the quick add type is set to 'Bulk'."
+        },
+        {
+            "type": "checkbox",
+            "id": "show_quick_add_standard",
+            "label": "Show quick add button for standard",
+            "default": true,
+            "info": "This setting is only applicable if the quick add type is set to 'Standard'."
+        },
+
+        {
+            "type": "select",
+            "id": "grid_item_width",
+            "label": "Grid item width",
+            "options": [
+            { "value": "4", "label": "4" },
+            { "value": "3", "label": "3" },
+            { "value": "2", "label": "2" },
+            { "value": "1", "label": "1" }
+            ],
+            "default": "4"
+        }
+        ],
+
+        "presets": [
+        {
+            "name": "Collection Product Grid",
+            "category": "Collection"
+        }
+        ]
+    }
+    {% endschema %}

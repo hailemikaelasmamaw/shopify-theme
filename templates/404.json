@@ -1,13 +1,13 @@
-// {
-//     "section" : {
-//         "main": {
-//             "type" : "main-404",
-//             "settings" : {
+{
+    "section" : {
+        "main": {
+            "type" : "main-404",
+            "settings" : {
 
-//             }
-//         }
-//     },
-//     "order": [
-//         "main"
-//     ]
-// }
+            }
+        }
+    },
+    "order": [
+        "main"
+    ]
+}
