@@ -1,0 +1,124 @@
+<div class="collection-main">
+  <div class="collection-main__header">
+    <h1 class="collection-main__title">{{ collection.title }}</h1>
+    {% if collection.description != blank %}
+        <div class="collection-main__description">{{ collection.description }}</div>
+        {% endif %}
+    {% if collection.image != blank %}
+        <div class="collection-main__image">
+            <img src="{{ collection.image | image_url:'large' }}" alt="{{ collection.title }}" width="{{ collection.image.width }}" height="{{ collection.image.height }}">
+        </div>
+    {% endif %}
+    {% render 'collection-product-grid', products: collection.products %}
+  </div>
+    <div class="collection-main__filters">
+        {% if collection.all_tags.size > 0 %}
+            <div class="collection-main__tags">
+                <h2>Filter by Tags</h2>
+                <ul class="collection-main__tag-list">
+                    {% for tag in collection.all_tags %}
+                        <li class="collection-main__tag-item">
+                            <a href="{{ collection.url | append: '?constraint=' | append: tag }}" class="collection-main__tag-link">{{ tag }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        <div class="collection-main__sort">
+            <h2>Sort by</h2>
+            <select class="collection-main__sort-select" onchange="location = this.value;">
+                <option value="{{ collection.url }}">Default</option>
+                <option value="{{ collection.url | append: '?sort=best-selling' }}">Best Selling</option>
+                <option value="{{ collection.url | append: '?sort=title-ascending' }}">Alphabetically, A-Z</option>
+                <option value="{{ collection.url | append: '?sort=title-descending' }}">Alphabetically, Z-A</option>
+                <option value="{{ collection.url | append: '?sort=price-ascending' }}">Price, low to high</option>
+                <option value="{{ collection.url | append: '?sort=price-descending' }}">Price, high to low</option>
+                <option value="{{ collection.url | append: '?sort=created-ascending' }}">Date, old to new</option>
+                <option value="{{ collection.url | append: '?sort=created-descending' }}">Date, new to old</option>
+
+            </select>
+        </div>
+        <div class="collection-main__view-mode">
+            <h2>View</h2>
+            <option>
+                <button class="collection-main__view-button" data-view="grid">Grid</button>
+                <button class="collection-main__view-button" data-view="list">List</button>
+            </option>
+        </div>
+    </div>
+
+  {% if collection.products_count > 0 %}
+    <div class="collection-main__pagination">
+  {% paginate collection.products by settings.collection_page_size %}
+    <!-- Add pagination content here if needed -->
+  {% endpaginate %}
+</div>
+    {% endif %}
+</div>
+
+{% if settings.show_cart_note %}
+  <div class="cart-footer-note">
+    <textarea class="cart-footer-note__input" placeholder="Add a note..."></textarea>
+    <button class="cart-footer-note__button">Add Note</button>
+  </div>
+{% endif %}
+{% schema %}
+{
+    "name": "Collection Main",
+    "settings": [
+    {
+        "type": "text",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#ffffff"
+    },
+    {
+        "type": "text",
+        "id": "text_color",
+        "label": "Text Color",
+        "default": "#000000"
+    },
+    {
+        "type": "text",
+        "id": "button_background",
+        "label": "Button Background Color",
+        "default": "#007bff"
+    },
+    {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text Color",
+        "default": "#ffffff"
+    },
+    {
+        "type": "checkbox",
+        "id": "show_cart_note",
+        "label": "Show Cart Note",
+        "default": true
+    }
+
+    ],
+
+  "presets": [
+    {
+        "name": "Default",
+        "category": "Collection"
+    }
+    ]
+}
+{% endschema %}
+
+<style>
+/* Collection Main Styles */
+
+.collection-main {
+    background-color: {{ settings.background_color }};
+    color: {{ settings.text_color }};
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+</style>
