@@ -1,13 +1,75 @@
 {
-    "section" : {
-        "main": {
-            "type" : "main-404",
-            "settings" : {
-
-            }
+  "name": "Collection",
+  "type": "collection",
+  "sections": {
+    "main": {
+      "type": "collection-main",
+      "settings": {
+        "collection": "all",
+        "show_collection_description": true,
+        "show_collection_image": true,
+        "show_sorting": true,
+        "show_filtering": true,
+        "show_view_switcher": true,
+        "show_pagination": true,
+        "products_per_page": 12,
+        "enable_infinite_scroll": false,
+        "enable_ajax_add_to_cart": false,
+        "enable_quick_view": false
+      },
+      "blocks": {
+        "collection-description": {
+          "type": "collection-description",
+          "settings": {
+            "show_collection_description": true
+          }
+        },
+        "collection-image": {
+          "type": "collection-image",
+          "settings": {
+            "show_collection_image": true
+          }
+        },
+        "sort-by": {
+          "type": "sort-by",
+          "settings": {
+            "show_sorting": true
+          }
+        },
+        "filtering": {
+          "type": "filtering",
+          "settings": {
+            "show_filtering": true
+          }
+        },
+        "view-switcher": {
+          "type": "view-switcher",
+          "settings": {
+            "show_view_switcher": true
+          }
+        },
+        "pagination": {
+          "type": "pagination",
+          "settings": {
+            "show_pagination": true
+          }
+        },
+        "products": {
+          "type": "products",
+          "settings": {
+            "products_per_page": 12,
+            "enable_infinite_scroll": false,
+            "enable_ajax_add_to_cart": false,
+            "enable_quick_view": false
+          }
         }
-    },
-    "order": [
-        "main"
-    ]
+
+
+      }
+      
+    }
+  },
+  "order": ["main"]
 }
+// Compare this snippet from templates/404.json:
+// {
