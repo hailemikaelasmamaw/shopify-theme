@@ -23,6 +23,44 @@
         </div>
     {% endfor %}
 </div>
+  
+<style>
+    .collection-product-grid {
+        display: grid;
+        grid-template-columns: repeat({{ section.settings.grid_item_width }}, 1fr);
+        gap: 20px;
+        grid-auto-rows: minmax(200px, auto);
+        margin: 0 auto;
+        padding: 20px;
+        max-width: 1200px;
+        margin-top: 50px;
+    }
+    .grid__item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+
+    }
+    .grid__item--{{ section.settings.grid_item_width }} {
+        flex: 1 1 calc(100% / {{ section.settings.grid_item_width }} - 20px);
+
+    }
+    @media (max-width: 768px) {
+        .collection-product-grid {
+            grid-template-columns: repeat(2, 1fr);
+            viewport: 100vw;
+            margin: 0 auto;
+            padding: 10px;
+
+        }
+        .grid__item--{{ section.settings.grid_item_width }} {
+            flex: 1 1 calc(100% / 2 - 20px);
+            flex-wrap: wrap;
+            grid-auto-rows: minmax(200px, auto);
+        }
+    }
+</style>
 
 
 {%- paginate collection.products by section.settings.products_per_page | default: 12 -%}
@@ -69,6 +107,8 @@
         </div>
     {% endif %}
 {%- endpaginate -%}
+<style>
+
 {% schema %}
     {
         "name": "Collection Product Grid",
