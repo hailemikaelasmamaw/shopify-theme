@@ -1,0 +1,80 @@
+
+
+<div class="collection-hero {% if section.settings.show_collection_image and collection.image %} collection-hero-with-image {% endif %} color-{{ section.settings.color_scheme }} gradient ">
+        <div class="collection-hero__content">
+            <h1 class="collection-hero__title">{{ collection.title }}</h1>
+            <p class="collection-hero__description">{{ collection.description }}</p>
+            {% if collection.image %}
+                <img src="{{ collection.image | image_url: 'large' }}" alt="{{ collection.title }}"  height="" width="  collection-hero__image"/>
+
+            {% endif %}
+        </div>
+
+
+        {%- if section.settings.show_collection_image and collection.image -%}
+            <div class ="collection-hero__image-container media gradient">
+                <img srcset="
+                    {%- if collection.image.width >= 165 -%}{{ collection.image | image_url: width: 165 }} 165w,{%- endif -%}
+                    {%- if collection.image.width >= 360 -%}{{ collection.image | image_url: width: 360 }} 360w,{%- endif -%}
+                    {%- if collection.image.width >= 535 -%}{{ collection.image | image_url: width: 535 }} 535w,{%- endif -%}
+                    {%- if collection.image.width >= 750 -%}{{ collection.image | image_url: width: 750 }} 750w,{%- endif -%}
+                    {%- if collection.image.width >= 1070 -%}{{ collection.image | image_url: width: 1070 }} 1070w,{%- endif -%}
+                    {%- if collection.image.width >= 1500 -%}{{ collection.image | image_url: width: 1500 }} 1500w,{%- endif -%}
+                    {{ collection.image | image_url }} {{ collection.image.width }}"
+                    src="{{ collection.image | image_url: width: 750 }}"
+                    sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width }}px, 100vw"
+                    alt="{{ collection.image.alt}}"
+                    width="{{ collection.image.width }}"
+                    height="{{ collection.image.height }}"
+                    loading="lazy"
+                    class="collection-hero__image"
+                />
+            </div>
+        {%- endif -%}
+</div>
+
+{% schema %}
+
+{
+    "name": "t:sections.main-collection-banner.name",
+    "class": "section-collection-banner",
+    "settings": [
+        {
+            "type": "paragraph",
+            "content": "t:sections.main-collection-banner.description"
+        },
+        {
+            "type": "checkbox",
+            "id": "show_collection_image",
+            "label": "Show Collection Image",
+            "default": true
+        },
+        {
+            "type": "checkbox",
+            "id": "show_collection_description",
+            "label": "Show Collection Description",
+            "default": true
+        },
+        {
+            "type": "text", 
+            "id": "background_color",
+            "label": "Background Color",
+            "default": "#ffffff"
+        },
+        {
+            "type": "text",
+            "id": "text_color",
+            "label": "Text Color",
+            "default": "#000000"
+        }
+
+
+    ],
+    "presets": [
+        {
+            "name": "main-collection-banner",
+            "category": "Collection"
+        }
+    ]
+}
+{% endschema %}
