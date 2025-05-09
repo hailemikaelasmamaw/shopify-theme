@@ -1,7 +1,22 @@
 <div class="product-card">
     <div class="product-card__image">
         <a href="{{ product.url }}" class="product-card__link">
-            <img src="{{ product.image | image_url: 'medium' }}" alt="{{ product.title }}" width="300" height="200">
+            {% if product.featured_image %}
+            <img 
+                src="{{ product.featured_image | image_url: width: 300 }}" 
+                alt="{{ product.title }}" 
+                width="300" height="300"
+                loading="lazy"
+
+            >
+            {% else %}
+                <img 
+                    src="{{ 'placeholder.jpg' | asset_url }}" 
+                    alt="{{ product.title }}" 
+                    width="300" height="300"
+                    loading="lazy"
+                >
+            {% endif %}
         </a>
 
         {% if show_compare_at_price and product.compare_at_price > product.price %}
@@ -28,4 +43,3 @@
         {% endif %}
     </div>
 </div>
-  
