@@ -11,40 +11,62 @@
 {%- endif -%}
 
 <style>
-    .collection-product-grid {
-        display: grid;
-        grid-template-columns: repeat({{ section.settings.grid_item_width }}, 1fr);
-        gap: 20px;
-        grid-auto-rows: minmax(200px, auto);
-        margin: 0 auto;
-        padding: 20px;
-        max-width: 1200px;
-        margin-top: 50px;
-    }
-    .grid__item {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 10px;
+  .collection-product-grid {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.grid_item_width }}, 1fr);
+    gap: {{ section.settings.grid_item_width }}px;
+    background:{{ section.settings.background_color }};
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 1200px;
+    margin-top: 50px;
+  }
 
-    }
-    .grid__item--{{ section.settings.grid_item_width }} {
-        flex: 1 1 calc(100% / {{ section.settings.grid_item_width }} - 20px);
+  .grid__item {
+    background: #fff;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
+  }
+   .collection-product-grid .grid__item:hover {
+    background: {{ settings.button_background }};
+    color: {{ settings.button_text }};
+    transition: background 0.3s ease, color 0.3s ease;
     }
+    .collection-product-grid .grid__item:hover .grid__item__actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+    .collection-product-grid .grid__item:hover .grid__item__actions .grid__item__actions__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+    }
+
     @media (max-width: 768px) {
+    .collection-product-grid {
+        grid-template-columns: 1fr; /* STACKED column layout for mobile */
+        padding: 10px;
+    }
+    @media (max-width: 1024px) {
         .collection-product-grid {
-            grid-template-columns: repeat(2, 1fr);
-            viewport: 100vw;
-            margin: 0 auto;
-            padding: 10px;
+  grid-template-columns: repeat(2, 1fr);
+  }
+}
 
-        }
-        .grid__item--{{ section.settings.grid_item_width }} {
-            flex: 1 1 calc(100% / 2 - 20px);
-            flex-wrap: wrap;
-            grid-auto-rows: minmax(200px, auto);
-        }
+    @media (max-width: 640px) {
+    .collection-product-grid {
+    grid-template-columns: 1fr;
+    padding: 10px;
+    }
+}
+
     }
 </style>
 
