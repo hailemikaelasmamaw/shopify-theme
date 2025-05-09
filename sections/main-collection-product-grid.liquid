@@ -23,6 +23,7 @@
 {% comment %} {% endcomment %}
 
 {% stylesheet %}
+
     .collection-product-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr); /* Default 4-column grid for desktop */
@@ -30,25 +31,25 @@
         padding: 20px;
         max-width: 1200px;
         margin: 50px auto 0;
-        background-color: {{ section.settings.background_color }};
-        color: {{ section.settings.text_color }};
+        background-color: {{ section.settings.background_color | default: '#ffffff' }};
+        color: {{ section.settings.text_color | default: '#000000' }};
     }
 
     .grid__item {
-        background: {{section.settings.background_color}};
+        background: {{ section.settings.background_color }};
         border: 1px solid {{section.settings.background_color}};
-        padding: 10px;
+            padding: 10px;
+        }
         border-radius: 6px;
     }
     .grid__item:hover {
+
         transform: scale(1.02);
         box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         transition: all 0.3s ease-in-out;
         transform-origin: center;
     }
-    .grid__item--{{ section.settings.grid_item_width }} {
-        width: calc(100% / {{ section.settings.grid_item_width }} - 20px); /* Adjust width based on grid item width setting */
-    }
+    
 
     @media (max-width: 1024px) {
         .collection-product-grid {
@@ -76,7 +77,7 @@
     <div class="collection-product-grid">
         <div class="grid grid--uniform grid--view-items">
         {%- for product in collection.products -%}
-            <div class="grid__item grid__item--{{ section.settings.grid_item_width }}">
+            <div class="grid__item grid__item--{{ section.settings.grid_item_width }}, grid__item--{{ section.settings.grid_item_height }}">
             {%- render 'product-card',
                 product: product,
                 show_vendor: section.settings.show_vendor,
@@ -120,6 +121,7 @@
 {% schema %}
     {
         "name": "Collection Product Grid",
+        
         "settings": [
         {
             "type": "range",
@@ -148,6 +150,26 @@
             "label": "Show price",
             "default": true
         },
+        {
+            "type": "checkbox",
+            "id": "show_quick_add_bulks",
+            "label": "Enable Bulk Quick Add Scripts",
+            "default": false
+        },
+        {
+            "type" : "text",
+            "id" : "grid_item_height",
+            "label" : "Grid item height",
+            "default" : "1/4"
+        },
+
+        {
+            "type": "checkbox",
+            "id": "show_quick_add_standard",
+            "label": "Enable Standard Quick Add Scripts",
+            "default": false
+        },
+
         {
             "type": "checkbox",
             "id": "show_compare_at_price",
@@ -184,24 +206,16 @@
 
         },
         { 
-            "type": "colr",
+            "type": "color",
             "id": "text_color",
             "label": "Text color",
             "default": "#000000"
         },  
-       
-
         {
-            "type": "select",
+            "type": "text",
             "id": "grid_item_width",
             "label": "Grid item width",
-            "options": [
-            { "value": "4", "label": "4" },
-            { "value": "3", "label": "3" },
-            { "value": "2", "label": "2" },
-            { "value": "1", "label": "1" }
-            ],
-            "default": "4"
+            "default": "1/4"
         }
         ],
 
