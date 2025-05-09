@@ -52,7 +52,7 @@
         </div>
     </div>
 
-    {% if collection.products_count > 0 %}
+    {% comment %} {% if collection.products_count > 0 %}
         {% paginate collection.products by settings.collection_page_size %}
         <div class="collection-main__pagination">
             <div class="product-grid">
@@ -87,7 +87,7 @@
             </div>
         </div>
         {% endpaginate %}
-    {% endif %}
+    {% endif %} {% endcomment %}
 
     {% if settings.show_cart_note %}
         <div class="cart-footer-note">

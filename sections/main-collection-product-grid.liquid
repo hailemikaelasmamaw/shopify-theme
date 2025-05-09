@@ -9,21 +9,7 @@
     <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
-<div class="collection-product-grid">
-    {% for product in collection.products %}
-        <div class="grid__item grid__item--{{ section.settings.grid_item_width }}">
-            {%- render 'product-card',
-                product: product,
-                show_vendor: section.settings.show_vendor,
-                show_rating: section.settings.show_rating,
-                show_price: section.settings.show_price,
-                show_compare_at_price: section.settings.show_compare_at_price,
-                show_add_to_cart: section.settings.show_add_to_cart
-            -%}
-        </div>
-    {% endfor %}
-</div>
-  
+
 <style>
     .collection-product-grid {
         display: grid;
@@ -204,4 +190,4 @@
         }
         ]
     }
-    {% endschema %}
+{% endschema %}
