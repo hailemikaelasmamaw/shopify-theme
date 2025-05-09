@@ -10,65 +10,66 @@
     <script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
-<style>
-  .collection-product-grid {
-    display: grid;
-    grid-template-columns: repeat({{ section.settings.grid_item_width }}, 1fr);
-    gap: {{ section.settings.grid_item_width }}px;
-    background:{{ section.settings.background_color }};
-    padding: 20px;
-    margin: 0 auto;
-    max-width: 1200px;
-    margin-top: 50px;
-  }
+{%- if section.settings.show_quick_add_bulks -%}
+    <script src="{{ 'quick-add-bulk.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
 
-  .grid__item {
-    background: #fff;
-    padding: 10px;
-    border: 1px solid #eee;
-    border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+{%- if section.settings.show_quick_add_standard -%}
+    <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
 
-  }
-   .collection-product-grid .grid__item:hover {
-    background: {{ settings.button_background }};
-    color: {{ settings.button_text }};
-    transition: background 0.3s ease, color 0.3s ease;
+
+
+{% comment %} {% endcomment %}
+
+{% stylesheet %}
+    .collection-product-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); /* Default 4-column grid for desktop */
+        gap: 20px;
+        padding: 20px;
+        max-width: 1200px;
+        margin: 50px auto 0;
+        background-color: {{ section.settings.background_color }};
+        color: {{ section.settings.text_color }};
     }
-    .collection-product-grid .grid__item:hover .grid__item__actions {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+    .grid__item {
+        background: {{section.settings.background_color}};
+        border: 1px solid {{section.settings.background_color}};
+        padding: 10px;
+        border-radius: 6px;
     }
-    .collection-product-grid .grid__item:hover .grid__item__actions .grid__item__actions__button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    .grid__item:hover {
+        transform: scale(1.02);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        transition: all 0.3s ease-in-out;
+        transform-origin: center;
     }
+    .grid__item--{{ section.settings.grid_item_width }} {
+        width: calc(100% / {{ section.settings.grid_item_width }} - 20px); /* Adjust width based on grid item width setting */
+    }
+
+    @media (max-width: 1024px) {
+        .collection-product-grid {
+            grid-template-columns: repeat(3, 1fr); /* Tablet view */
+        }
     }
 
     @media (max-width: 768px) {
-    .collection-product-grid {
-        grid-template-columns: 1fr; /* STACKED column layout for mobile */
-        padding: 10px;
-    }
-    @media (max-width: 1024px) {
         .collection-product-grid {
-  grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-    @media (max-width: 640px) {
-    .collection-product-grid {
-    grid-template-columns: 1fr;
-    padding: 10px;
+           grid-template-columns: repeat(2, 1fr); /* Mobile view */
+            padding: 10px;
+        }
     }
-}
 
+    @media (max-width: 480px) {
+        .collection-product-grid {
+         grid-template-columns: 1fr; /* Small phones */
+        }
     }
-</style>
+{% endstylesheet %}
+
 
 
 {%- paginate collection.products by section.settings.products_per_page | default: 12 -%}
@@ -115,7 +116,6 @@
         </div>
     {% endif %}
 {%- endpaginate -%}
-<style>
 
 {% schema %}
     {
@@ -176,20 +176,20 @@
             ],
             "default": "standard"
         },
-        {
-            "type": "checkbox",
-            "id": "show_quick_add_bulks",
-            "label": "Show quick add button for bulk",
-            "default": true,
-            "info": "This setting is only applicable if the quick add type is set to 'Bulk'."
+        { 
+            "type" : "color",
+            "id" : "background_color",
+            "label" : "Background color",
+            "default" : "#ffffff"
+
         },
-        {
-            "type": "checkbox",
-            "id": "show_quick_add_standard",
-            "label": "Show quick add button for standard",
-            "default": true,
-            "info": "This setting is only applicable if the quick add type is set to 'Standard'."
-        },
+        { 
+            "type": "colr",
+            "id": "text_color",
+            "label": "Text color",
+            "default": "#000000"
+        },  
+       
 
         {
             "type": "select",
