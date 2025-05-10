@@ -1,229 +1,149 @@
 {%- if section.settings.quick_add == 'standard' -%}
-    <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
-  
+
 {%- if section.settings.quick_add == 'bulk' -%}
-    <script src="{{ 'quick-add-bulk.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quick-add-bulk.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
 {%- if section.settings.show_quick_add_bulks -%}
-    <script src="{{ 'quick-add-bulk.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quick-add-bulk.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
 {%- if section.settings.show_quick_add_standard -%}
-    <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
 
-
-{% comment %} {% endcomment %}
-
 {% stylesheet %}
+.collection-product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 50px auto 0;
+}
+.grid__item {
 
+    background: {{ section.settings.background_color | default: '#ffffff' }};
+    color: {{ section.settings.text_color | default: '#000000' }};
+    display: flex;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 15px;
+    transition: all 0.3s ease;
+}
+
+.grid__item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 1024px) {
     .collection-product-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr); /* Default 4-column grid for desktop */
-        gap: 20px;
-        padding: 20px;
-        max-width: 1200px;
-        margin: 50px auto 0;
-        background-color: {{ section.settings.background_color | default: '#ffffff' }};
-        color: {{ section.settings.text_color | default: '#000000' }};
+        grid-template-columns: repeat(3, 1fr);
     }
+}
 
-    .grid__item {
-        background: {{ section.settings.background_color }};
-        border: 1px solid {{section.settings.background_color}};
-            padding: 10px;
-        }
-        border-radius: 6px;
+ @media (max-width: 768px) {
+    .collection-product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 10px;
     }
-    .grid__item:hover {
+}
 
-        transform: scale(1.02);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        transition: all 0.3s ease-in-out;
-        transform-origin: center;
+@media (max-width: 480px) {
+    .collection-product-grid {
+        grid-template-columns: 1fr;
     }
-    
+}
 
-    @media (max-width: 1024px) {
-        .collection-product-grid {
-            grid-template-columns: repeat(3, 1fr); /* Tablet view */
-        }
-    }
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 40px auto;
+    gap: 10px;
+}
 
-    @media (max-width: 768px) {
-        .collection-product-grid {
-           grid-template-columns: repeat(2, 1fr); /* Mobile view */
-            padding: 10px;
-        }
-    }
+.pagination__link {
+    padding: 8px 12px;
+    border-radius: 4px;
+    background: #f7f7f7;
+    color: #333;
+    text-decoration: none;
+    transition: background 0.2s;
+}
 
-    @media (max-width: 480px) {
-        .collection-product-grid {
-         grid-template-columns: 1fr; /* Small phones */
-        }
-    }
+.pagination__link--current {
+    font-weight: bold;
+    background: #333;
+    color: #fff;
+}
+
+.pagination__link:hover {
+    background: #ddd;
+}
 {% endstylesheet %}
 
+  <div class="collection-product-grid__header">
+    <h2 class="collection-product-grid__title">{{ collection.title }}</h2>
+    <p class="collection-product-grid__description">{{ collection.description }}</p>
+  </div>
 
-
-{%- paginate collection.products by section.settings.products_per_page | default: 12 -%}
-    <div class="collection-product-grid">
-        <div class="grid grid--uniform grid--view-items">
-        {%- for product in collection.products -%}
-            <div class="grid__item grid__item--{{ section.settings.grid_item_width }}, grid__item--{{ section.settings.grid_item_height }}">
-            {%- render 'product-card',
-                product: product,
-                show_vendor: section.settings.show_vendor,
-                show_rating: section.settings.show_rating,
-                show_price: section.settings.show_price,
-                show_compare_at_price: section.settings.show_compare_at_price,
-                show_add_to_cart: section.settings.show_add_to_cart
-            -%}
-            </div>
+  {%- if section.settings.show_sorting -%}
+    <div class="collection-product-grid__sorting">
+      <label for="sort-by">{{ 'general.sort_by' | t }}</label>
+      <select id="sort-by" name="sort_by" onchange="location = this.value;">
+        {%- for option in collection.sort_options -%}
+          <option value="{{ option.url }}" {% if option.selected %}selected{% endif %}>{{ option.title }}</option>
         {%- endfor -%}
-        </div>
-    </div>
+      </select>
 
-    {% if paginate.pages > 1 %}
-        <div class="pagination">
+    {%- paginate collection.products by section.settings.products_per_page | default: 12 -%}
+    <div class="collection-product-grid {{ section.settings.background_color | default: '#ffffff' }} color: {{ section.settings.text_color | default: '#000000' }}" >
+    {%- for product in collection.products -%}
+
+        <div class="grid__item grid__item--{{ section.settings.grid_item_width }} grid__item--{{ section.settings.grid_item_height }}">
+        {%- render 'product-card',
+            product: product,
+            show_vendor: section.settings.show_vendor,
+            show_rating: section.settings.show_rating,
+            show_price: section.settings.show_price,
+            show_compare_at_price: section.settings.show_compare_at_price,
+            show_add_to_cart: section.settings.show_add_to_cart
+        -%}
+        </div>
+    {%- endfor -%}
+  </div>
+
+  {% if paginate.pages > 1 %}
+    <div class="pagination">
         {% if paginate.previous %}
             <a href="{{ paginate.previous.url }}" class="pagination__link pagination__link--prev" title="{{ 'general.pagination.previous' | t }}">
-            <span class="icon icon--chevron-left"></span>
-            <span class="pagination__text">{{ 'general.pagination.previous' | t }}</span>
+                ‹ {{ 'general.pagination.previous' | t }}
             </a>
         {% endif %}
 
         {% for part in paginate.parts %}
             {% if part.is_link %}
-            <a href="{{ part.url }}" class="pagination__link" title="{{ part.title }}">{{ part.title }}</a>
+                <a href="{{ part.url }}" class="pagination__link" title="{{ part.title }}">{{ part.title }}</a>
             {% else %}
-            <span class="pagination__link pagination__link--current">{{ part.title }}</span>
+                <span class="pagination__link pagination__link--current">{{ part.title }}</span>
             {% endif %}
         {% endfor %}
 
         {% if paginate.next %}
             <a href="{{ paginate.next.url }}" class="pagination__link pagination__link--next" title="{{ 'general.pagination.next' | t }}">
-            <span class="icon icon--chevron-right"></span>
-            <span class="pagination__text">{{ 'general.pagination.next' | t }}</span>
+                {{ 'general.pagination.next' | t }}
+
             </a>
         {% endif %}
-        </div>
-    {% endif %}
+    </div>
+  {% endif %}
+
 {%- endpaginate -%}
-
-{% schema %}
-    {
-        "name": "Collection Product Grid",
-        
-        "settings": [
-        {
-            "type": "range",
-            "id": "products_per_page",
-            "label": "Products per page",
-            "default": 12,
-            "min": 1,
-            "max": 100,
-            "step": 1
-        },
-        {
-            "type": "checkbox",
-            "id": "show_vendor",
-            "label": "Show vendor",
-            "default": true
-        },
-        {
-            "type": "checkbox",
-            "id": "show_rating",
-            "label": "Show rating",
-            "default": true
-        },
-        {
-            "type": "checkbox",
-            "id": "show_price",
-            "label": "Show price",
-            "default": true
-        },
-        {
-            "type": "checkbox",
-            "id": "show_quick_add_bulks",
-            "label": "Enable Bulk Quick Add Scripts",
-            "default": false
-        },
-        {
-            "type" : "text",
-            "id" : "grid_item_height",
-            "label" : "Grid item height",
-            "default" : "1/4"
-        },
-
-        {
-            "type": "checkbox",
-            "id": "show_quick_add_standard",
-            "label": "Enable Standard Quick Add Scripts",
-            "default": false
-        },
-
-        {
-            "type": "checkbox",
-            "id": "show_compare_at_price",
-            "label": "Show compare at price",
-            "default": true
-        },
-        {
-            "type": "checkbox",
-            "id": "show_add_to_cart",
-            "label": "Show add to cart button",
-            "default": true
-        },
-        {
-            "type": "checkbox",
-            "id": "show_quick_add",
-            "label": "Show quick add button",
-            "default": true
-        },
-        {
-            "type": "select",
-            "id": "quick_add",
-            "label": "Quick add type",
-            "options": [
-                { "value": "standard", "label": "Standard" },
-                { "value": "bulk", "label": "Bulk" }
-            ],
-            "default": "standard"
-        },
-        { 
-            "type" : "color",
-            "id" : "background_color",
-            "label" : "Background color",
-            "default" : "#ffffff"
-
-        },
-        { 
-            "type": "color",
-            "id": "text_color",
-            "label": "Text color",
-            "default": "#000000"
-        },  
-        {
-            "type": "text",
-            "id": "grid_item_width",
-            "label": "Grid item width",
-            "default": "1/4"
-        }
-        ],
-
-        "presets": [
-        {
-            "name": "Collection Product Grid",
-            "category": "Collection"
-        }
-        ]
-    }
-{% endschema %}
