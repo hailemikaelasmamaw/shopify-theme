@@ -2,13 +2,16 @@
   About Us Section
 {% endcomment %}
 
-<section class="about-us-section px-6 py-12 max-w-5xl mx-auto text-center">
+<section class="about-us-section px-6 py-12 max-w-5xl mx-auto text-center" 
+    style="background-color: {{ section.settings.background_color }}; 
+    color: {{ section.settings.text_color }};">
     
     <h2 class="text-3xl font-bold mb-6">
         {{ section.settings.heading }}
     </h2>
 
-    {% if section.settings.about_image %}
+    {% if section.settings.show_image and section.settings.about_image %}
+        
         <img 
             src="{{ section.settings.about_image | image_url: width: 1000 }}" 
             alt="About us image" 
@@ -91,7 +94,7 @@
     "presets": [
     {
         "name": "About Us"
-    }
-  ]
+
+    }]
 }
 {% endschema %}
