@@ -1,13 +1,13 @@
 
 
-<div class="about-us-block px-6 py-12 max-w-5xl mx-auto text-center" style="background-color: {{ block.settings.background_color }}; color: {{ block.settings.text_color }};">
+<div class="about-us-block px-6 py-12 max-w-5xl mx-auto text-center" style="background-color: {{ settings.background_color }}; color: {{ settings.text_color }};">
     <h2 class="text-3xl font-bold mb-6">
-        {{ .settings.heading }}
+        {{ settings.heading }}
     </h2>
 
     {% if settings.show_image and settings.about_image %}
         <img
-            src="{{ .settings.about_image | image_url: width: 1000 }}"
+            src="{{ settings.about_image | image_url: width: 1000 }}"
             alt="About us image"
             class="mx-auto mb-6 rounded-lg shadow-lg"
             width="100"
@@ -21,14 +21,14 @@
 
     {% if .settings.show_cta %}
         <a href="{{ settings.cta_link }}" class="inline-block bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition">
-            {{ .settings.cta_text }}
+            {{ settings.cta_text }}
         </a>
     {% endif %}
 </div>
 
 {% schema %}
 {
-  "name": "about us block",
+  "name": "about us",
   "settings": [
     {
         "type": "text",
