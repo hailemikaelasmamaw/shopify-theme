@@ -1,0 +1,23 @@
+<h1 class="page-title text-4xl font-bold mb-4">
+  {% if page.title != blank %}
+    
+    {{ page.title }}
+  {% else %}
+    {{ section.settings.title }}
+  {% endif %}
+</h1>
+
+{% schema %}
+  {
+    "name": "Page Title",
+    "class": "page-title",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Page Title",
+         "default": "Welcome to Our Store"
+      }
+    ]
+  }
+{% endschema %}

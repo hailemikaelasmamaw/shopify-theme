@@ -1,17 +1,14 @@
-{% comment %}
-  About Us Section
-{% endcomment %}
+// snippets/about-us-block.liquid
 
-<section class="about-us-section px-6 py-12 max-w-5xl mx-auto text-center" style="background-color: {{ section.settings.background_color }}; color: {{ section.settings.text_color }};">
-    
+<div class="about-us-block px-6 py-12 max-w-5xl mx-auto text-center" style="background-color: {{ block.settings.background_color }}; color: {{ block.settings.text_color }};">
     <h2 class="text-3xl font-bold mb-6">
-        {{ section.settings.heading }}
+        {{ block.settings.heading }}
     </h2>
 
-    {% if section.settings.show_image and section.settings.about_image %}
-        <img 
-            src="{{ section.settings.about_image | image_url: width: 1000 }}" 
-            alt="About us image" 
+    {% if block.settings.show_image and block.settings.about_image %}
+        <img
+            src="{{ block.settings.about_image | image_url: width: 1000 }}"
+            alt="About us image"
             class="mx-auto mb-6 rounded-lg shadow-lg"
             width="100"
             height="100"
@@ -19,19 +16,19 @@
     {% endif %}
 
     <div class="text-lg leading-relaxed mb-8">
-        {{ section.settings.content }}
+        {{ block.settings.content }}
     </div>
 
-    {% if section.settings.show_cta %}
-        <a href="{{ section.settings.cta_link }}" class="inline-block bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition">
-            {{ section.settings.cta_text }}
+    {% if block.settings.show_cta %}
+        <a href="{{ block.settings.cta_link }}" class="inline-block bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition">
+            {{ block.settings.cta_text }}
         </a>
     {% endif %}
-</section>
+</div>
 
 {% schema %}
 {
-  "name": "About Us Section",
+  "name": "About Us Block",
   "settings": [
     {
         "type": "text",
@@ -85,11 +82,6 @@
         "id": "cta_link",
         "label": "CTA Link",
         "default": "/pages/contact"
-    }
-  ],
-  "presets": [
-    {
-        "name": "About Us"
     }
   ]
 }
