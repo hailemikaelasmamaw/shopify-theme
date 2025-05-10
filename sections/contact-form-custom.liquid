@@ -15,25 +15,11 @@
         <div class="mb-4">
             <textarea class="w-full p-3 border rounded" name="contact[body]" placeholder="Your Message" rows="6" required></textarea>
         </div>
-
-        {% render 'contact-details' %}
-
-        {% if section.settings.show_phone %}
-            <div class="mb-4">
-                <input class="w-full p-3 border rounded" type="tel" name="contact[phone]" placeholder="Your Phone Number">
-            </div>
-        {% endif %}
-
-        {% if section.settings.show_subject %}
-            <div class="mb-4">
-                <input class="w-full p-3 border rounded" type="text" name="contact[subject]" placeholder="Subject">
-            </div>
-        {% endif %}
-
         <button type="submit" class="w-full p-3 bg-blue-600 text-white rounded hover:bg-blue-700">
             {{ section.settings.button_text }}
         </button>
     </form>
+    {% render 'contact-details' %}
 </div>
 
 {% schema %}
@@ -63,6 +49,19 @@
       "id": "button_text",
       "label": "Submit Button Text",
       "default": "Send Message"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": " Button Color",
+      "default": "#007bff"
+    },
+    {
+      "type"
+    }
+
+    {
+
     }
   ],
   "presets": [
