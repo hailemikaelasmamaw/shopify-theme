@@ -15,10 +15,20 @@
             "id": "color",
             "label": "Color"
         }
+        ],
+        "sections": [
+            "header",
+            "footer",
+            { "id": "about-us", "label": "About Us" },
+            { "id": "contact-us", "label": "Contact Us" },
+            { "id": "faq", "label": "FAQ" },
+            { "id": "terms-and-conditions", "label": "Terms and Conditions" },
+            { "id": "privacy-policy", "label": "Privacy Policy" }
+
         ]
     },
     {
-        "name": "Typography",
+        "name": "Typography",   
         "settings": [
         {
             "type": "range",
@@ -58,6 +68,7 @@
             "default": false
         }
         ]
+        
     }
 
 ]
