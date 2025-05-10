@@ -2,16 +2,13 @@
   About Us Section
 {% endcomment %}
 
-<section class="about-us-section px-6 py-12 max-w-5xl mx-auto text-center" 
-    style="background-color: {{ section.settings.background_color }}; 
-    color: {{ section.settings.text_color }};">
+<section class="about-us-section px-6 py-12 max-w-5xl mx-auto text-center" style="background-color: {{ section.settings.background_color }}; color: {{ section.settings.text_color }};">
     
     <h2 class="text-3xl font-bold mb-6">
         {{ section.settings.heading }}
     </h2>
 
     {% if section.settings.show_image and section.settings.about_image %}
-        
         <img 
             src="{{ section.settings.about_image | image_url: width: 1000 }}" 
             alt="About us image" 
@@ -21,7 +18,7 @@
         />
     {% endif %}
 
-    <div class="text-lg leading-relaxed text-gray-700 mb-8">
+    <div class="text-lg leading-relaxed mb-8">
         {{ section.settings.content }}
     </div>
 
@@ -29,7 +26,7 @@
         <a href="{{ section.settings.cta_link }}" class="inline-block bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition">
             {{ section.settings.cta_text }}
         </a>
-  {% endif %}
+    {% endif %}
 </section>
 
 {% schema %}
@@ -55,14 +52,14 @@
     },
     {
         "type": "checkbox",
-        "id": "show_cta",
-        "label": "Show Call To Action Button?",
+        "id": "show_image",
+        "label": "Show Image?",
         "default": true
     },
     {
         "type": "checkbox",
-        "id": "show_image",
-        "label": "Show Image?",
+        "id": "show_cta",
+        "label": "Show Call To Action Button?",
         "default": true
     },
     {
@@ -77,7 +74,6 @@
         "label": "Text Color",
         "default": "#333333"
     },
-
     {
         "type": "text",
         "id": "cta_text",
@@ -90,11 +86,11 @@
         "label": "CTA Link",
         "default": "/pages/contact"
     }
-    ],
-    "presets": [
+  ],
+  "presets": [
     {
         "name": "About Us"
-
-    }]
+    }
+  ]
 }
 {% endschema %}

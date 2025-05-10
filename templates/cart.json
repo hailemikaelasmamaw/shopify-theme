@@ -1,57 +1,27 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
-  "name": "Cart",
   "sections": {
-    "cart-items": {
+    "cart_item_AnTHXM": {
       "type": "cart-item",
+      "name": "Cart",
       "settings": {
-        "color": "#000",
-        "padding_top": 30,
-
-        "padding_bottom": 30,
-        "padding_left": 20,
-        "padding_right": 20
+        "show_cart_note": true,
+        "background_color": "#FFFFFF",
+        "text_color": "#333333",
+        "button_background": "#000000",
+        "button_text": "#FFFFFF"
       }
-    },
-    "cart-footer": {
-      "type": "main-cart-footer",
-
-      "settings": {
-        "color": "#000",
-        "padding_top": 20,
-        "padding_bottom": 40
-      },
-      "blocks": {
-        "subtotal": {
-          "type": "subtotal",
-          "settings": {
-            "color": "#000",
-            "padding_top": 20,
-            "padding_bottom": 20,
-            "padding_left": 20,
-            "padding_right": 20
-          }
-        },
-        "buttons": {
-          "type": "buttons",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "subtotal",
-        "buttons"
-      ]
     }
   },
   "order": [
-    "cart-items",
-    "cart-footer",
-    "cart-footer.subtotal",
-    "cart-footer.buttons"
-    ],
-    "presets": [
-        {
-        "name": "Default",
-        "category": "Cart"
-        }
+    "cart_item_AnTHXM"
   ]
 }
