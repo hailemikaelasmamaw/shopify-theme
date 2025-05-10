@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "custom-contact-form": {
+      "type": "custom-contact-form",
+      "settings": {
+        "heading": "Get in Touch with Us",
+        "show_phone": true,
+        "show_subject": true,
+        "button_text": "Submit Your Message"
+      }
+    }
+  },
+  "order": [
+    "custom-contact-form"
+  ]
+}
