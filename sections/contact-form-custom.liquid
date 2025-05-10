@@ -1,28 +1,102 @@
-<div class="custom-contact-form max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+<div class="custom-contact-form max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-lg" style="background-color: {{ section.settings.background_color }};">
+    <style>
+        .custom-contact-form {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .custom-contact-form h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #333;
+            text-align: center;
+        }
+
+        .custom-contact-form input,
+        .custom-contact-form textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s ease, border 0.3s ease;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .custom-contact-form input:focus,
+        .custom-contact-form textarea:focus {
+            outline: none;
+            border-color: #007bff;
+            background-color: #ffffff;
+        }
+
+        .custom-contact-form button {
+            display: inline-block;
+            width: 100%;
+            padding: 0.75rem;
+            background-color: {{ section.settings.button_color }};
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .custom-contact-form button:hover {
+            background-color: {{ section.settings.button_hover_color }};
+        }
+
+        .custom-contact-form .contact-details {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .custom-contact-form input::placeholder,
+        .custom-contact-form textarea::placeholder {
+            color: #aaa;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .custom-contact-form {
+                padding: 1.5rem;
+            }
+
+            .custom-contact-form h2 {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+
     <h2 class="text-3xl font-bold mb-4">{{ section.settings.heading }}</h2>
-    
 
     <form action="/contact#contact_form" method="post" enctype="multipart/form-data" class="space-y-4">
         <input type="hidden" name="form_type" value="contact">
         <input type="hidden" name="utf8" value="✓">
 
         <div class="mb-6">
-            <input class="w-full p-3 border rounded" type="text" name="contact[name]" placeholder=" Name" required>
+            <input class="w-full p-3 border rounded" type="text" name="contact[name]" placeholder="Name" required>
         </div>
         <div class="mb-6">
             <input class="w-full p-3 border rounded" type="email" name="contact[email]" placeholder="Email *" required>
         </div>
-          <div class="mb-6">
+        <div class="mb-6">
             <input class="w-full p-3 border rounded" type="number" name="contact[phone]" placeholder="Phone Number" required>
         </div>
         <div class="mb-4">
             <textarea class="w-full p-3 border rounded" name="contact[body]" placeholder="Your Message" rows="6" required></textarea>
-            <button type="submit" class="w-full p-3 bg-blue-600 text-white rounded hover:bg-blue-700">
+        </div>
+
+        <button type="submit" class="w-full p-3 text-white rounded">
             {{ section.settings.button_text }}
         </button>
-        </div>
-        
     </form>
+
     {% render 'contact-details' %}
 </div>
 
@@ -57,13 +131,13 @@
     {
       "type": "color",
       "id": "button_color",
-      "label": " Button Color",
+      "label": "Button Color",
       "default": "#007bff"
     },
     {
-      "type" : "color",
+      "type": "color",
       "id": "button_hover_color",
-      "label": " Button Hover Color",
+      "label": "Button Hover Color",
       "default": "#0056b3"
     },
     {
